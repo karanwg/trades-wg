@@ -1,0 +1,123 @@
+{
+  "id": "stuck-contactor",
+  "title": "Stuck Contactor (Welded Contacts)",
+  "description": "The customer complains that the outdoor unit runs continuously, even when the thermostat is turned off. The compressor and fan never shut down.",
+  "difficulty": "intermediate",
+  "symptoms": [
+    "Outdoor unit runs continuously",
+    "System doesn't respond to thermostat",
+    "Compressor and condenser fan won't turn off",
+    "House becomes too cold"
+  ],
+  "faults": [
+    {
+      "componentId": "contactor",
+      "type": "stuck_contactor",
+      "description": "Contactor contacts are welded closed - unit runs regardless of control signal"
+    }
+  ],
+  "expectedReadings": [
+    {
+      "componentId": "contactor",
+      "terminalFrom": "COIL_1",
+      "terminalTo": "COIL_2",
+      "mode": "voltage_ac",
+      "value": 0,
+      "tolerance": 0
+    },
+    {
+      "componentId": "contactor",
+      "terminalFrom": "L1_OUT",
+      "terminalTo": "L2_OUT",
+      "mode": "voltage_ac",
+      "value": 239,
+      "tolerance": 5
+    },
+    {
+      "componentId": "contactor",
+      "terminalFrom": "L1_IN",
+      "terminalTo": "L1_OUT",
+      "mode": "resistance",
+      "value": 0.1,
+      "tolerance": 50
+    },
+    {
+      "componentId": "contactor",
+      "terminalFrom": "L2_IN",
+      "terminalTo": "L2_OUT",
+      "mode": "resistance",
+      "value": 0.1,
+      "tolerance": 50
+    }
+  ],
+  "normalReadings": [
+    {
+      "componentId": "power_supply",
+      "terminalFrom": "L1",
+      "terminalTo": "L2",
+      "mode": "voltage_ac",
+      "value": 240,
+      "tolerance": 5
+    },
+    {
+      "componentId": "thermostat",
+      "terminalFrom": "R",
+      "terminalTo": "C",
+      "mode": "voltage_ac",
+      "value": 24,
+      "tolerance": 10
+    },
+    {
+      "componentId": "capacitor",
+      "terminalFrom": "C",
+      "terminalTo": "HERM",
+      "mode": "capacitance",
+      "value": 45,
+      "tolerance": 10
+    },
+    {
+      "componentId": "capacitor",
+      "terminalFrom": "C",
+      "terminalTo": "FAN",
+      "mode": "capacitance",
+      "value": 5,
+      "tolerance": 10
+    }
+  ],
+  "diagnosticSteps": [
+    {
+      "order": 1,
+      "description": "Turn off thermostat and observe unit",
+      "action": "Set thermostat to OFF and check if outdoor unit stops",
+      "expectedResult": "Unit should stop; if it continues running, there's a problem",
+      "hint": "A continuously running unit despite thermostat off is a key symptom"
+    },
+    {
+      "order": 2,
+      "description": "Check control voltage to contactor",
+      "action": "Measure voltage at contactor coil with thermostat OFF",
+      "expectedResult": "Should read 0V when thermostat is not calling",
+      "hint": "0V at coil but unit still running indicates stuck contacts"
+    },
+    {
+      "order": 3,
+      "description": "Visually inspect contactor",
+      "action": "With power OFF, physically inspect the contactor contacts",
+      "expectedResult": "Contacts should move freely when pushed",
+      "hint": "Welded contacts will be stuck together"
+    },
+    {
+      "order": 4,
+      "description": "Test contact continuity",
+      "action": "With power OFF and coil de-energized, check continuity through contacts",
+      "expectedResult": "Should be OPEN (OL) when contactor is not energized",
+      "hint": "If contacts show continuity when coil is off, they're welded"
+    }
+  ],
+  "learningObjectives": [
+    "Recognize symptoms of a stuck/welded contactor",
+    "Understand the danger of a continuously running compressor",
+    "Differentiate between control circuit and power circuit issues",
+    "Safely diagnose contactor problems"
+  ]
+}

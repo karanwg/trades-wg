@@ -1,0 +1,147 @@
+{
+  "id": "outdoor-fan-failure",
+  "title": "Outdoor Fan Motor Failure",
+  "description": "The customer reports the AC stopped cooling and there was a burning smell from the outdoor unit. Upon arrival, the compressor is running but the condenser fan blade is stationary.",
+  "difficulty": "beginner",
+  "symptoms": [
+    "Compressor runs but condenser fan doesn't spin",
+    "High head pressure (if gauges connected)",
+    "Unit may short cycle on high pressure",
+    "Burning smell reported",
+    "Fan blade can be spun freely by hand"
+  ],
+  "faults": [
+    {
+      "componentId": "outdoor_fan",
+      "type": "open_circuit",
+      "description": "Condenser fan motor winding is open - motor has burned out"
+    }
+  ],
+  "expectedReadings": [
+    {
+      "componentId": "outdoor_fan",
+      "terminalFrom": "L",
+      "terminalTo": "N",
+      "mode": "resistance",
+      "value": -1,
+      "tolerance": 0
+    },
+    {
+      "componentId": "outdoor_fan",
+      "terminalFrom": "L",
+      "terminalTo": "CAP",
+      "mode": "resistance",
+      "value": -1,
+      "tolerance": 0
+    },
+    {
+      "componentId": "outdoor_fan",
+      "terminalFrom": "L",
+      "terminalTo": "N",
+      "mode": "voltage_ac",
+      "value": 240,
+      "tolerance": 5
+    },
+    {
+      "componentId": "outdoor_fan",
+      "terminalFrom": "L",
+      "terminalTo": "N",
+      "mode": "current_ac",
+      "value": 0,
+      "tolerance": 0
+    }
+  ],
+  "normalReadings": [
+    {
+      "componentId": "power_supply",
+      "terminalFrom": "L1",
+      "terminalTo": "L2",
+      "mode": "voltage_ac",
+      "value": 240,
+      "tolerance": 5
+    },
+    {
+      "componentId": "contactor",
+      "terminalFrom": "L1_OUT",
+      "terminalTo": "L2_OUT",
+      "mode": "voltage_ac",
+      "value": 240,
+      "tolerance": 5
+    },
+    {
+      "componentId": "capacitor",
+      "terminalFrom": "C",
+      "terminalTo": "FAN",
+      "mode": "capacitance",
+      "value": 5,
+      "tolerance": 10
+    },
+    {
+      "componentId": "capacitor",
+      "terminalFrom": "C",
+      "terminalTo": "HERM",
+      "mode": "capacitance",
+      "value": 45,
+      "tolerance": 10
+    },
+    {
+      "componentId": "compressor",
+      "terminalFrom": "C",
+      "terminalTo": "R",
+      "mode": "resistance",
+      "value": 4.2,
+      "tolerance": 10
+    },
+    {
+      "componentId": "compressor",
+      "terminalFrom": "C",
+      "terminalTo": "S",
+      "mode": "resistance",
+      "value": 8.7,
+      "tolerance": 10
+    }
+  ],
+  "diagnosticSteps": [
+    {
+      "order": 1,
+      "description": "Verify power to outdoor unit",
+      "action": "Measure voltage at contactor output terminals",
+      "expectedResult": "Should read ~240V AC when calling",
+      "hint": "Confirms power is available to motors"
+    },
+    {
+      "order": 2,
+      "description": "Check voltage at fan motor",
+      "action": "Measure voltage across fan motor terminals L to N",
+      "expectedResult": "Should read ~240V AC when calling",
+      "hint": "Voltage present but motor not running indicates motor problem"
+    },
+    {
+      "order": 3,
+      "description": "Check fan capacitor section",
+      "action": "With power OFF, test capacitor C to FAN terminals",
+      "expectedResult": "Should read rated capacitance (typically 5µF)",
+      "hint": "A weak capacitor can prevent motor starting"
+    },
+    {
+      "order": 4,
+      "description": "Test fan motor windings",
+      "action": "With power OFF, measure resistance across motor terminals",
+      "expectedResult": "Should read a few hundred ohms",
+      "hint": "OL reading indicates open winding - motor is burned out"
+    },
+    {
+      "order": 5,
+      "description": "Measure motor current",
+      "action": "Use clamp meter on motor lead with system running",
+      "expectedResult": "Should show rated FLA",
+      "hint": "Zero current with voltage present confirms open winding"
+    }
+  ],
+  "learningObjectives": [
+    "Identify symptoms of a failed condenser fan motor",
+    "Understand the consequences of running compressor without condenser fan",
+    "Test single-phase motor windings",
+    "Use a clamp meter to verify motor operation"
+  ]
+}

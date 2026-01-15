@@ -1,0 +1,123 @@
+{
+  "id": "thermostat-failure",
+  "title": "Thermostat Not Sending Signal",
+  "description": "The AC system appears completely dead. Indoor and outdoor units are not responding even though the thermostat display is on and set to cool.",
+  "difficulty": "beginner",
+  "symptoms": [
+    "No response from indoor or outdoor unit",
+    "Thermostat display works and shows call for cooling",
+    "No fan operation",
+    "No clicking sounds from anywhere in system"
+  ],
+  "faults": [
+    {
+      "componentId": "thermostat",
+      "type": "bad_thermostat",
+      "description": "Thermostat is not closing the Y (cooling) circuit - internal relay failure"
+    }
+  ],
+  "expectedReadings": [
+    {
+      "componentId": "thermostat",
+      "terminalFrom": "R",
+      "terminalTo": "Y",
+      "mode": "voltage_ac",
+      "value": 24,
+      "tolerance": 10
+    },
+    {
+      "componentId": "thermostat",
+      "terminalFrom": "Y",
+      "terminalTo": "C",
+      "mode": "voltage_ac",
+      "value": 0,
+      "tolerance": 0
+    },
+    {
+      "componentId": "contactor",
+      "terminalFrom": "COIL_1",
+      "terminalTo": "COIL_2",
+      "mode": "voltage_ac",
+      "value": 0,
+      "tolerance": 0
+    }
+  ],
+  "normalReadings": [
+    {
+      "componentId": "power_supply",
+      "terminalFrom": "L1",
+      "terminalTo": "L2",
+      "mode": "voltage_ac",
+      "value": 240,
+      "tolerance": 5
+    },
+    {
+      "componentId": "thermostat",
+      "terminalFrom": "R",
+      "terminalTo": "C",
+      "mode": "voltage_ac",
+      "value": 24,
+      "tolerance": 10
+    },
+    {
+      "componentId": "contactor",
+      "terminalFrom": "L1_IN",
+      "terminalTo": "L2_IN",
+      "mode": "voltage_ac",
+      "value": 240,
+      "tolerance": 5
+    },
+    {
+      "componentId": "capacitor",
+      "terminalFrom": "C",
+      "terminalTo": "HERM",
+      "mode": "capacitance",
+      "value": 45,
+      "tolerance": 10
+    },
+    {
+      "componentId": "compressor",
+      "terminalFrom": "C",
+      "terminalTo": "R",
+      "mode": "resistance",
+      "value": 4.2,
+      "tolerance": 10
+    }
+  ],
+  "diagnosticSteps": [
+    {
+      "order": 1,
+      "description": "Verify 24V power at thermostat",
+      "action": "Measure voltage between R and C terminals at thermostat",
+      "expectedResult": "Should read ~24V AC",
+      "hint": "If no 24V, check transformer or wiring"
+    },
+    {
+      "order": 2,
+      "description": "Check for signal output",
+      "action": "Measure voltage between Y and C with thermostat calling",
+      "expectedResult": "Should read ~24V when calling for cooling",
+      "hint": "0V indicates thermostat not sending signal"
+    },
+    {
+      "order": 3,
+      "description": "Jumper test at thermostat",
+      "action": "Remove thermostat, jumper R to Y at the sub-base",
+      "expectedResult": "Outdoor unit should start",
+      "hint": "If unit starts with jumper, thermostat is the problem"
+    },
+    {
+      "order": 4,
+      "description": "Verify at contactor",
+      "action": "Check voltage at contactor coil terminals",
+      "expectedResult": "Should read 24V when calling",
+      "hint": "No voltage confirms control signal problem"
+    }
+  ],
+  "learningObjectives": [
+    "Understand the 24V control circuit in HVAC systems",
+    "Diagnose thermostat signal issues",
+    "Use jumper testing to isolate thermostat problems",
+    "Trace control wiring from thermostat to contactor"
+  ]
+}

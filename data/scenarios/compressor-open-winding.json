@@ -1,0 +1,132 @@
+{
+  "id": "compressor-open-winding",
+  "title": "Compressor Open Winding",
+  "description": "The outdoor unit's condenser fan runs, but the compressor won't start. The capacitor tests good and the contactor is pulling in properly.",
+  "difficulty": "intermediate",
+  "symptoms": [
+    "Condenser fan runs normally",
+    "Compressor doesn't start",
+    "No humming from compressor",
+    "No cooling from supply vents",
+    "Contactor clicks on when calling"
+  ],
+  "faults": [
+    {
+      "componentId": "compressor",
+      "type": "open_circuit",
+      "description": "Compressor run winding is open - internal thermal overload or winding failure"
+    }
+  ],
+  "expectedReadings": [
+    {
+      "componentId": "compressor",
+      "terminalFrom": "C",
+      "terminalTo": "R",
+      "mode": "resistance",
+      "value": -1,
+      "tolerance": 0
+    },
+    {
+      "componentId": "compressor",
+      "terminalFrom": "C",
+      "terminalTo": "S",
+      "mode": "resistance",
+      "value": 8.5,
+      "tolerance": 10
+    },
+    {
+      "componentId": "compressor",
+      "terminalFrom": "R",
+      "terminalTo": "S",
+      "mode": "resistance",
+      "value": -1,
+      "tolerance": 0
+    }
+  ],
+  "normalReadings": [
+    {
+      "componentId": "power_supply",
+      "terminalFrom": "L1",
+      "terminalTo": "L2",
+      "mode": "voltage_ac",
+      "value": 240,
+      "tolerance": 5
+    },
+    {
+      "componentId": "contactor",
+      "terminalFrom": "L1_OUT",
+      "terminalTo": "L2_OUT",
+      "mode": "voltage_ac",
+      "value": 240,
+      "tolerance": 5
+    },
+    {
+      "componentId": "contactor",
+      "terminalFrom": "COIL_1",
+      "terminalTo": "COIL_2",
+      "mode": "voltage_ac",
+      "value": 24,
+      "tolerance": 10
+    },
+    {
+      "componentId": "capacitor",
+      "terminalFrom": "C",
+      "terminalTo": "HERM",
+      "mode": "capacitance",
+      "value": 45,
+      "tolerance": 10
+    },
+    {
+      "componentId": "capacitor",
+      "terminalFrom": "C",
+      "terminalTo": "FAN",
+      "mode": "capacitance",
+      "value": 5,
+      "tolerance": 10
+    },
+    {
+      "componentId": "outdoor_fan",
+      "terminalFrom": "L",
+      "terminalTo": "N",
+      "mode": "current_ac",
+      "value": 1.2,
+      "tolerance": 20
+    }
+  ],
+  "diagnosticSteps": [
+    {
+      "order": 1,
+      "description": "Verify contactor is pulling in",
+      "action": "Check voltage at contactor output with system calling",
+      "expectedResult": "Should read ~240V AC",
+      "hint": "This confirms power is reaching the compressor circuit"
+    },
+    {
+      "order": 2,
+      "description": "Check capacitor",
+      "action": "Turn off power, discharge, and test capacitance",
+      "expectedResult": "Should be within 10% of rated value",
+      "hint": "A failed capacitor can prevent motor starting"
+    },
+    {
+      "order": 3,
+      "description": "Test compressor windings",
+      "action": "With power OFF, measure resistance between all terminal pairs",
+      "expectedResult": "C-R: low ohms, C-S: slightly higher, R-S: sum of C-R and C-S",
+      "hint": "OL (infinite) reading indicates an open winding"
+    },
+    {
+      "order": 4,
+      "description": "Check for ground fault",
+      "action": "Measure resistance from each terminal to compressor case/ground",
+      "expectedResult": "Should read OL (infinite) on all terminals",
+      "hint": "Any reading indicates a grounded winding"
+    }
+  ],
+  "learningObjectives": [
+    "Diagnose compressor winding failures using resistance testing",
+    "Understand the C-R-S terminal arrangement on hermetic compressors",
+    "Interpret open circuit readings on a multimeter",
+    "Differentiate between capacitor and compressor failures"
+  ]
+}

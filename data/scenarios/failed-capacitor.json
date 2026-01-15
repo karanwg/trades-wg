@@ -1,0 +1,146 @@
+{
+  "id": "failed-capacitor",
+  "title": "Failed Run Capacitor",
+  "description": "The outdoor unit hums but neither the compressor nor condenser fan starts. The customer reports the system was working yesterday but stopped cooling this morning.",
+  "difficulty": "beginner",
+  "symptoms": [
+    "Outdoor unit hums but doesn't start",
+    "Indoor blower runs normally",
+    "No cooling from supply vents",
+    "Thermostat shows call for cooling"
+  ],
+  "faults": [
+    {
+      "componentId": "capacitor",
+      "type": "failed_capacitor",
+      "description": "Run capacitor has failed - shows significantly reduced capacitance"
+    }
+  ],
+  "expectedReadings": [
+    {
+      "componentId": "capacitor",
+      "terminalFrom": "C",
+      "terminalTo": "HERM",
+      "mode": "capacitance",
+      "value": 8.5,
+      "tolerance": 10
+    },
+    {
+      "componentId": "capacitor",
+      "terminalFrom": "C",
+      "terminalTo": "FAN",
+      "mode": "capacitance",
+      "value": 2.1,
+      "tolerance": 10
+    },
+    {
+      "componentId": "contactor",
+      "terminalFrom": "L1_OUT",
+      "terminalTo": "L2_OUT",
+      "mode": "voltage_ac",
+      "value": 238,
+      "tolerance": 5
+    },
+    {
+      "componentId": "compressor",
+      "terminalFrom": "C",
+      "terminalTo": "R",
+      "mode": "resistance",
+      "value": 4.2,
+      "tolerance": 10
+    },
+    {
+      "componentId": "compressor",
+      "terminalFrom": "C",
+      "terminalTo": "S",
+      "mode": "resistance",
+      "value": 8.7,
+      "tolerance": 10
+    },
+    {
+      "componentId": "compressor",
+      "terminalFrom": "R",
+      "terminalTo": "S",
+      "mode": "resistance",
+      "value": 12.9,
+      "tolerance": 10
+    }
+  ],
+  "normalReadings": [
+    {
+      "componentId": "power_supply",
+      "terminalFrom": "L1",
+      "terminalTo": "L2",
+      "mode": "voltage_ac",
+      "value": 240,
+      "tolerance": 5
+    },
+    {
+      "componentId": "thermostat",
+      "terminalFrom": "R",
+      "terminalTo": "C",
+      "mode": "voltage_ac",
+      "value": 24,
+      "tolerance": 10
+    },
+    {
+      "componentId": "contactor",
+      "terminalFrom": "L1_IN",
+      "terminalTo": "L2_IN",
+      "mode": "voltage_ac",
+      "value": 240,
+      "tolerance": 5
+    },
+    {
+      "componentId": "contactor",
+      "terminalFrom": "COIL_1",
+      "terminalTo": "COIL_2",
+      "mode": "voltage_ac",
+      "value": 24,
+      "tolerance": 10
+    }
+  ],
+  "diagnosticSteps": [
+    {
+      "order": 1,
+      "description": "Verify power at the disconnect",
+      "action": "Measure voltage at power supply L1 to L2",
+      "expectedResult": "Should read ~240V AC",
+      "hint": "Always start by confirming power is present"
+    },
+    {
+      "order": 2,
+      "description": "Check contactor operation",
+      "action": "Verify voltage at contactor coil terminals",
+      "expectedResult": "Should read ~24V AC when thermostat calls",
+      "hint": "If no 24V, the thermostat or transformer may be the issue"
+    },
+    {
+      "order": 3,
+      "description": "Verify voltage through contactor",
+      "action": "Measure voltage at contactor output terminals",
+      "expectedResult": "Should read ~240V when contactor is pulled in",
+      "hint": "No voltage means contactor contacts may be bad"
+    },
+    {
+      "order": 4,
+      "description": "Test capacitor",
+      "action": "Turn off power, discharge capacitor, measure capacitance",
+      "expectedResult": "HERM side should be ~45µF, FAN side should be ~5µF",
+      "hint": "A weak or failed capacitor is a common cause of this symptom"
+    },
+    {
+      "order": 5,
+      "description": "Check compressor windings",
+      "action": "With power off, measure resistance between C-R, C-S, and R-S",
+      "expectedResult": "All readings should be low ohms, R-S should equal C-R + C-S",
+      "hint": "Open or shorted windings indicate compressor failure"
+    }
+  ],
+  "learningObjectives": [
+    "Identify symptoms of a failed run capacitor",
+    "Properly discharge a capacitor before testing",
+    "Use a multimeter to measure capacitance",
+    "Understand the relationship between capacitor failure and motor starting issues"
+  ]
+}
