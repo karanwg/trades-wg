@@ -5,6 +5,7 @@ import { useEffect, useRef } from 'react';
 
 interface LogPanelProps {
   logs: LogEntry[];
+  compact?: boolean;
 }
 
 const levelStyles: Record<LogLevel, { bg: string; text: string; icon: string }> = {
@@ -30,7 +31,7 @@ const levelStyles: Record<LogLevel, { bg: string; text: string; icon: string }> 
   },
 };
 
-export function LogPanel({ logs }: LogPanelProps) {
+export function LogPanel({ logs, compact }: LogPanelProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
 
   // Auto-scroll to bottom on new logs
@@ -49,6 +50,46 @@ export function LogPanel({ logs }: LogPanelProps) {
       hour12: false,
     });
   };
+
+  if (compact) {
+    return (
+      <div className="h-full flex flex-col">
+        <div className="p-2 border-b border-slate-800/50 shrink-0">
+          <span className="text-xs text-slate-500 uppercase tracking-wider">
+            Log ({logs.length})
+          </span>
+        </div>
+
+        <div ref={scrollRef} className="flex-1 overflow-y-auto p-2 space-y-1">
+          {logs.length === 0 ? (
+            <p className="text-slate-600 text-xs text-center py-4">
+              No actions yet
+            </p>
+          ) : (
+            logs.slice(-20).map((log) => {
+              const style = levelStyles[log.level];
+              return (
+                <div
+                  key={log.id}
+                  className={`${style.bg} rounded px-2 py-1 text-xs`}
+                >
+                  <div className="flex items-center gap-1">
+                    <span className="shrink-0 text-[10px]">{style.icon}</span>
+                    <span className={`${style.text} truncate flex-1`}>
+                      {log.message}
+                    </span>
+                    <span className="text-slate-600 text-[10px] shrink-0">
+                      {formatTime(log.timestamp)}
+                    </span>
+                  </div>
+                </div>
+              );
+            })
+          )}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="h-full flex flex-col">

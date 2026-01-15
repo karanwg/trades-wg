@@ -10,6 +10,7 @@ interface ReadoutPanelProps {
   lastResult: string | null;
   onMeasure: () => void;
   onClearSelection: () => void;
+  compact?: boolean;
 }
 
 export function ReadoutPanel({
@@ -19,14 +20,91 @@ export function ReadoutPanel({
   lastResult,
   onMeasure,
   onClearSelection,
+  compact,
 }: ReadoutPanelProps) {
   const lastMeasurement = measurements[measurements.length - 1];
 
   const formatPointLabel = (point: MeasurementPoint) => {
     const component = COMPONENT_TEMPLATES[point.componentId];
-    const terminal = component.terminals.find((t) => t.id === point.terminalId);
-    return `${component.name} → ${terminal?.label || point.terminalId}`;
+    return `${component.name} → ${point.terminalId}`;
   };
+
+  const formatPointShort = (point: MeasurementPoint) => {
+    const component = COMPONENT_TEMPLATES[point.componentId];
+    const shortName = component.name.split(' ')[0];
+    return `${shortName}:${point.terminalId}`;
+  };
+
+  if (compact) {
+    return (
+      <div className="p-3 border-b border-slate-800/50 shrink-0">
+        {/* Digital Display - Compact */}
+        <div className="bg-slate-950 border border-slate-700/50 rounded-xl p-3 mb-2">
+          <div className="flex items-center justify-between">
+            <div className="flex items-baseline gap-2">
+              {lastMeasurement ? (
+                <>
+                  <span className="font-mono text-3xl font-bold text-cyan-400">
+                    {lastMeasurement.value !== null
+                      ? formatValue(lastMeasurement.value, lastMeasurement.mode)
+                      : 'OL'}
+                  </span>
+                  <span className="text-lg text-slate-400">{lastMeasurement.unit}</span>
+                </>
+              ) : (
+                <span className="text-slate-600 font-mono text-2xl">---</span>
+              )}
+            </div>
+            <span className="text-xs px-2 py-0.5 bg-slate-800 rounded text-slate-400">
+              {currentMode ? formatMode(currentMode) : 'No mode'}
+            </span>
+          </div>
+        </div>
+
+        {/* Selected Points - Compact */}
+        <div className="flex items-center gap-2 mb-2">
+          <span className="text-xs text-slate-500">Points:</span>
+          {selectedPoints.length === 0 ? (
+            <span className="text-xs text-slate-600">None selected</span>
+          ) : (
+            <div className="flex gap-1">
+              {selectedPoints.map((point, i) => (
+                <span
+                  key={`${point.componentId}-${point.terminalId}`}
+                  className={`text-xs px-2 py-0.5 rounded ${
+                    i === 0 ? 'bg-rose-500/20 text-rose-300' : 'bg-slate-700 text-slate-300'
+                  }`}
+                >
+                  {formatPointShort(point)}
+                </span>
+              ))}
+            </div>
+          )}
+          {selectedPoints.length > 0 && (
+            <button onClick={onClearSelection} className="text-xs text-slate-500 hover:text-white">
+              ✕
+            </button>
+          )}
+        </div>
+
+        {/* Measure Button - Compact */}
+        <button
+          onClick={onMeasure}
+          disabled={selectedPoints.length === 0 || !currentMode}
+          className={`
+            w-full py-2 rounded-lg font-medium text-sm transition-all
+            ${
+              selectedPoints.length > 0 && currentMode
+                ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white hover:shadow-lg hover:shadow-cyan-500/20'
+                : 'bg-slate-800 text-slate-500 cursor-not-allowed'
+            }
+          `}
+        >
+          📏 Measure
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="flex-1 p-6 flex flex-col">
