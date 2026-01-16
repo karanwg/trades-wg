@@ -1,0 +1,110 @@
+'use client';
+
+import { ActionStep } from '@/lib/sequencing/types';
+import { ActionEditor } from './ActionEditor';
+
+interface ActionListProps {
+  actions: ActionStep[];
+  onChange: (actions: ActionStep[]) => void;
+}
+
+export function ActionList({ actions, onChange }: ActionListProps) {
+  const handleAddAction = () => {
+    const newAction: ActionStep = {
+      id: `action-${Date.now()}`,
+      label: '',
+      icon: '📝',
+      isCorrect: false,
+    };
+    onChange([...actions, newAction]);
+  };
+
+  const handleUpdateAction = (index: number, updated: ActionStep) => {
+    const newActions = [...actions];
+    newActions[index] = updated;
+    onChange(newActions);
+  };
+
+  const handleDeleteAction = (index: number) => {
+    onChange(actions.filter((_, i) => i !== index));
+  };
+
+  const handleMoveUp = (index: number) => {
+    if (index === 0) return;
+    const newActions = [...actions];
+    [newActions[index - 1], newActions[index]] = [newActions[index], newActions[index - 1]];
+    onChange(newActions);
+  };
+
+  const handleMoveDown = (index: number) => {
+    if (index === actions.length - 1) return;
+    const newActions = [...actions];
+    [newActions[index], newActions[index + 1]] = [newActions[index + 1], newActions[index]];
+    onChange(newActions);
+  };
+
+  const correctCount = actions.filter(a => a.isCorrect).length;
+  const distractorCount = actions.filter(a => !a.isCorrect).length;
+
+  return (
+    <div>
+      {/* Header */}
+      <div className="flex items-center justify-between mb-4">
+        <div>
+          <h3 className="text-lg font-bold text-white">Actions</h3>
+          <p className="text-sm text-white/50">
+            {correctCount} correct steps, {distractorCount} distractors
+          </p>
+        </div>
+        <button
+          type="button"
+          onClick={handleAddAction}
+          className="wg-button wg-button-secondary px-4 py-2 text-sm"
+        >
+          + Add Action
+        </button>
+      </div>
+
+      {/* Actions list */}
+      {actions.length === 0 ? (
+        <div className="wg-card-dark p-8 text-center">
+          <div className="text-4xl mb-4">📝</div>
+          <p className="text-white/50 mb-4">No actions added yet</p>
+          <button
+            type="button"
+            onClick={handleAddAction}
+            className="wg-button wg-button-secondary"
+          >
+            Add your first action
+          </button>
+        </div>
+      ) : (
+        <div className="space-y-3">
+          {actions.map((action, index) => (
+            <ActionEditor
+              key={action.id}
+              action={action}
+              index={index}
+              onChange={(updated) => handleUpdateAction(index, updated)}
+              onDelete={() => handleDeleteAction(index)}
+              onMoveUp={() => handleMoveUp(index)}
+              onMoveDown={() => handleMoveDown(index)}
+              canMoveUp={index > 0}
+              canMoveDown={index < actions.length - 1}
+            />
+          ))}
+        </div>
+      )}
+
+      {/* Help text */}
+      {actions.length > 0 && (
+        <div className="mt-4 p-4 rounded-lg bg-white/5 border border-white/10">
+          <p className="text-sm text-white/50">
+            💡 <strong className="text-white/70">Tip:</strong> Mark the correct actions and set their order. 
+            Add some wrong actions (distractors) to make it challenging!
+          </p>
+        </div>
+      )}
+    </div>
+  );
+}

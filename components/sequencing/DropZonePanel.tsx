@@ -1,9 +1,11 @@
 'use client';
 
-import { Theme, ActionStep } from '@/lib/sequencing/types';
+import { ActionStep } from '@/lib/sequencing/types';
+
+// Default neutral gradient
+const NEUTRAL_GRADIENT = 'linear-gradient(135deg, #667eea 0%, #764ba2 50%, #6B8DD6 100%)';
 
 interface DropZonePanelProps {
-  theme: Theme;
   chain: ActionStep[];
   currentStep: number;
   totalSteps: number;
@@ -16,9 +18,8 @@ interface DropZonePanelProps {
 }
 
 export function DropZonePanel({
-  theme,
   chain,
-  currentStep,
+  currentStep: _currentStep,
   totalSteps,
   isDragOver,
   newChainItemId,
@@ -27,6 +28,7 @@ export function DropZonePanel({
   onDragOver,
   onDragLeave,
 }: DropZonePanelProps) {
+  void _currentStep; // Reserved for future use
   const isComplete = chain.length === totalSteps;
 
   return (
@@ -38,7 +40,7 @@ export function DropZonePanel({
         relative rounded-2xl overflow-hidden transition-all duration-300
         ${isDragOver ? 'ring-4 ring-[var(--wg-accent-teal)] ring-opacity-50' : ''}
       `}
-      style={{ background: theme.bgGradient }}
+      style={{ background: NEUTRAL_GRADIENT }}
     >
       {/* Background overlay for depth */}
       <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
@@ -54,12 +56,14 @@ export function DropZonePanel({
 
       {/* Content area */}
       <div className="relative z-10 p-8 min-h-[320px] flex flex-col">
-        {/* Empty state - Large emoji */}
+        {/* Empty state */}
         {chain.length === 0 && (
           <div className="flex-1 flex flex-col items-center justify-center">
-            <div className="text-8xl mb-4 opacity-80">{theme.bgEmoji}</div>
-            <p className="text-white/50 text-lg font-medium text-center">
-              Drop the first action here to begin
+            <p className="text-white/60 text-lg font-medium text-center">
+              Drag and drop actions here to build your sequence
+            </p>
+            <p className="text-white/40 text-sm mt-2">
+              Start with step 1
             </p>
           </div>
         )}
@@ -74,11 +78,6 @@ export function DropZonePanel({
                 <div className="absolute -bottom-2 left-6 w-4 h-4 bg-white transform rotate-45" />
               </div>
             )}
-
-            {/* Small emoji in corner when items are placed */}
-            <div className="absolute top-6 right-6 text-4xl opacity-60">
-              {theme.bgEmoji}
-            </div>
 
             {/* Horizontal chain items */}
             <div className="flex-1 flex items-center justify-center p-4">

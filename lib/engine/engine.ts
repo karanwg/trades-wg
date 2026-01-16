@@ -9,6 +9,7 @@ import {
   ComponentId,
   Component,
   ToolId,
+  Tool,
   MeasurementMode,
   MeasurementPoint,
   Measurement,

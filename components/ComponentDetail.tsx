@@ -9,6 +9,22 @@ import { PowerSupplyDiagram } from './diagrams/PowerSupplyDiagram';
 import { ThermostatDiagram } from './diagrams/ThermostatDiagram';
 import { FanMotorDiagram } from './diagrams/FanMotorDiagram';
 
+// Component mapping defined outside render to avoid creating components during render
+const DIAGRAM_COMPONENTS: Record<ComponentId, React.ComponentType<{
+  hoveredTerminal: string | null;
+  selectedTerminals: string[];
+  onTerminalClick: (terminalId: string) => void;
+  onTerminalHover: (terminalId: string | null) => void;
+}>> = {
+  capacitor: CapacitorDiagram,
+  compressor: CompressorDiagram,
+  contactor: ContactorDiagram,
+  power_supply: PowerSupplyDiagram,
+  thermostat: ThermostatDiagram,
+  indoor_fan: FanMotorDiagram,
+  outdoor_fan: FanMotorDiagram,
+};
+
 interface ComponentDetailProps {
   component: Component;
   selectedPoints: MeasurementPoint[];
@@ -37,7 +53,7 @@ export function ComponentDetail({
     return index >= 0 ? index + 1 : null;
   };
 
-  const DiagramComponent = getDiagramComponent(component.id);
+  const DiagramComponent = DIAGRAM_COMPONENTS[component.id] || CapacitorDiagram;
 
   return (
     <div className="flex-1 flex flex-col overflow-hidden">
@@ -172,22 +188,3 @@ export function ComponentDetail({
   );
 }
 
-function getDiagramComponent(componentId: ComponentId) {
-  switch (componentId) {
-    case 'capacitor':
-      return CapacitorDiagram;
-    case 'compressor':
-      return CompressorDiagram;
-    case 'contactor':
-      return ContactorDiagram;
-    case 'power_supply':
-      return PowerSupplyDiagram;
-    case 'thermostat':
-      return ThermostatDiagram;
-    case 'indoor_fan':
-    case 'outdoor_fan':
-      return FanMotorDiagram;
-    default:
-      return CapacitorDiagram;
-  }
-}

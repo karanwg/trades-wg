@@ -1,19 +1,15 @@
 'use client';
 
-import { Theme } from '@/lib/sequencing/types';
-
 interface CompletionModalProps {
   score: number;
-  theme: Theme;
   onPlayAgain: () => void;
-  onChangeTheme: () => void;
+  onBack: () => void;
 }
 
 export function CompletionModal({
   score,
-  theme,
   onPlayAgain,
-  onChangeTheme,
+  onBack,
 }: CompletionModalProps) {
   // Determine message based on score
   const getMessage = () => {
@@ -28,11 +24,6 @@ export function CompletionModal({
   return (
     <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 wg-animate-fade-in">
       <div className="wg-completion-card wg-animate-bounce-in max-w-md mx-4">
-        {/* Theme emoji background */}
-        <div className="text-6xl mb-2 opacity-30 absolute top-4 right-4">
-          {theme.bgEmoji}
-        </div>
-
         {/* Success emoji */}
         <div className="text-7xl mb-4">{message.emoji}</div>
 
@@ -68,10 +59,10 @@ export function CompletionModal({
         {/* Action buttons */}
         <div className="flex gap-4">
           <button
-            onClick={onChangeTheme}
+            onClick={onBack}
             className="wg-button wg-button-reset flex-1"
           >
-            Change Theme
+            Back to Questions
           </button>
           <button
             onClick={onPlayAgain}

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useCallback, useMemo } from 'react';
-import { Theme, SequencingQuestion, ActionStep, LogEntry, FeedbackReading } from '@/lib/sequencing/types';
+import { SequencingQuestion, ActionStep, LogEntry } from '@/lib/sequencing/types';
 import { ProgressHeader } from './ProgressHeader';
 import { DropZonePanel } from './DropZonePanel';
 import { FeedbackPanel } from './FeedbackPanel';
@@ -10,9 +10,8 @@ import { LogPanel } from './LogPanel';
 import { CompletionModal } from './CompletionModal';
 
 interface SequencingGameProps {
-  theme: Theme;
   question: SequencingQuestion;
-  onChangeTheme: () => void;
+  onBack: () => void;
 }
 
 function shuffleArray<T>(array: T[]): T[] {
@@ -24,11 +23,20 @@ function shuffleArray<T>(array: T[]): T[] {
   return shuffled;
 }
 
-export function SequencingGame({ theme, question, onChangeTheme }: SequencingGameProps) {
-  // All available actions (correct + distractors, shuffled)
+export function SequencingGame({ question, onBack }: SequencingGameProps) {
+  // All available actions (shuffled)
   const allActions = useMemo(() => {
-    return shuffleArray([...question.correctSequence, ...question.distractors]);
+    return shuffleArray([...question.actions]);
   }, [question]);
+
+  // Correct sequence sorted by correctOrder
+  const correctSequence = useMemo(() => {
+    return question.actions
+      .filter((a) => a.isCorrect && typeof a.correctOrder === 'number')
+      .sort((a, b) => (a.correctOrder ?? 0) - (b.correctOrder ?? 0));
+  }, [question.actions]);
+
+  const totalSteps = correctSequence.length;
 
   // Game state
   const [score, setScore] = useState(100);
@@ -49,17 +57,9 @@ export function SequencingGame({ theme, question, onChangeTheme }: SequencingGam
   const [draggingId, setDraggingId] = useState<string | null>(null);
   const [newChainItemId, setNewChainItemId] = useState<string | null>(null);
   const [showGoodJob, setShowGoodJob] = useState(false);
+  const [currentFeedback, setCurrentFeedback] = useState<string | null>(null);
 
-  const totalSteps = question.correctSequence.length;
   const currentStep = chain.length;
-
-  // Get current feedback reading
-  const currentReading: FeedbackReading = useMemo(() => {
-    if (!question.feedbackConfig) {
-      return { display: '---', value: 0, unit: '', status: 'normal', description: '' };
-    }
-    return question.feedbackConfig.readings[currentStep] || question.feedbackConfig.initialReading;
-  }, [question.feedbackConfig, currentStep]);
 
   // Add log entry
   const addLog = useCallback((action: string, status: 'success' | 'error' | 'info', icon?: string) => {
@@ -101,13 +101,18 @@ export function SequencingGame({ theme, question, onChangeTheme }: SequencingGam
       if (!action) return;
 
       // Check if this is the correct next action
-      const expectedAction = question.correctSequence[currentStep];
+      const expectedAction = correctSequence[currentStep];
       
       if (action.id === expectedAction.id) {
         // Correct!
         setNewChainItemId(action.id);
         setChain((prev) => [...prev, action]);
         addLog(`Step ${currentStep + 1}: ${action.label}`, 'success', action.icon);
+        
+        // Show feedback if available
+        if (action.feedback) {
+          setCurrentFeedback(action.feedback);
+        }
         
         // Show "Good Job!" briefly
         setShowGoodJob(true);
@@ -127,7 +132,7 @@ export function SequencingGame({ theme, question, onChangeTheme }: SequencingGam
         triggerErrorFeedback(actionId, action.label);
       }
     },
-    [allActions, currentStep, totalSteps, isCompleted, question.correctSequence, addLog, triggerErrorFeedback]
+    [allActions, currentStep, totalSteps, isCompleted, correctSequence, addLog, triggerErrorFeedback]
   );
 
   const handleDragOver = useCallback(
@@ -165,6 +170,7 @@ export function SequencingGame({ theme, question, onChangeTheme }: SequencingGam
   const handleReset = useCallback(() => {
     setScore(100);
     setChain([]);
+    setCurrentFeedback(null);
     setLog([
       {
         id: 'restart',
@@ -179,7 +185,7 @@ export function SequencingGame({ theme, question, onChangeTheme }: SequencingGam
   }, [question.title]);
 
   return (
-    <div className="min-h-screen flex flex-col wg-background relative">
+    <div className="min-h-screen wg-background relative">
       {/* Background Effects */}
       <div className="wg-bg-pattern" />
       <div className="wg-bg-shapes" />
@@ -187,25 +193,24 @@ export function SequencingGame({ theme, question, onChangeTheme }: SequencingGam
       {/* Red Flash Overlay */}
       {showRedFlash && <div className="wg-red-flash" />}
 
-      {/* Header */}
-      <ProgressHeader
-        currentStep={currentStep}
-        totalSteps={totalSteps}
-        score={score}
-        theme={theme}
-        questionTitle={question.title}
-        questionDescription={question.description}
-        onReset={handleReset}
-      />
+      <div className="relative z-10">
+        {/* Header */}
+        <ProgressHeader
+          currentStep={currentStep}
+          totalSteps={totalSteps}
+          score={score}
+          questionTitle={question.title}
+          questionDescription={question.description}
+          onReset={handleReset}
+          onBack={onBack}
+        />
 
-      {/* Main Content */}
-      <div className="flex-1 relative z-10 px-6 pb-6">
-        <div className="h-full grid grid-rows-[1fr_auto] gap-4">
+        {/* Main Content */}
+        <div className="px-6 pb-6 space-y-4">
           {/* Top Row: Drop Zone + Feedback Panel (60/40 split) */}
-          <div className={`grid gap-4 ${theme.hasFeedbackPanel ? 'grid-cols-[3fr_2fr]' : 'grid-cols-1'}`}>
+          <div className="grid gap-4 grid-cols-[3fr_2fr]">
             {/* Drop Zone (Top-Left) */}
             <DropZonePanel
-              theme={theme}
               chain={chain}
               currentStep={currentStep}
               totalSteps={totalSteps}
@@ -217,26 +222,26 @@ export function SequencingGame({ theme, question, onChangeTheme }: SequencingGam
               onDragLeave={handleDragLeave}
             />
 
-            {/* Feedback Panel (Top-Right) - Only for HVAC and Piano */}
-            {theme.hasFeedbackPanel && theme.feedbackType && (
-              <FeedbackPanel
-                type={theme.feedbackType}
-                reading={currentReading}
-                questionTitle={question.title}
-                questionDescription={question.description}
-              />
-            )}
+            {/* Feedback Panel (Top-Right) */}
+            <FeedbackPanel
+              feedback={currentFeedback}
+              questionDescription={question.description}
+              startingPoint={question.startingPoint}
+              endingPoint={question.endingPoint}
+              currentStep={currentStep}
+              totalSteps={totalSteps}
+            />
           </div>
 
           {/* Bottom Row: Log + Actions (40/60 split) */}
-          <div className="grid grid-cols-[2fr_3fr] gap-4 h-[280px]">
+          <div className="grid grid-cols-[2fr_3fr] gap-4">
             {/* Log Panel (Bottom-Left) */}
-            <div className="wg-card-dark p-4">
+            <div className="wg-card-dark p-4 min-h-[280px]">
               <LogPanel entries={log} />
             </div>
 
             {/* Actions Panel (Bottom-Right) */}
-            <div className="wg-card-dark p-4">
+            <div className="wg-card-dark p-4 min-h-[280px]">
               <ActionsPanel
                 actions={allActions}
                 isCompleted={isCompleted}
@@ -254,9 +259,8 @@ export function SequencingGame({ theme, question, onChangeTheme }: SequencingGam
       {isCompleted && (
         <CompletionModal
           score={score}
-          theme={theme}
           onPlayAgain={handleReset}
-          onChangeTheme={onChangeTheme}
+          onBack={onBack}
         />
       )}
     </div>

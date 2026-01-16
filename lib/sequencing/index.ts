@@ -1,3 +1,4 @@
 export * from './types';
-export * from './themes';
-export * from './questions';
+export * from './sampleQuestions';
+export * from './context';
+export * from './useLocalStorage';

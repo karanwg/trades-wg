@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { QuestionProvider } from "@/lib/sequencing/context";
 
 export const metadata: Metadata = {
   title: "AC Fault Diagnosis Trainer",
@@ -22,7 +23,9 @@ export default function RootLayout({
         />
       </head>
       <body className="antialiased">
-        {children}
+        <QuestionProvider>
+          {children}
+        </QuestionProvider>
       </body>
     </html>
   );

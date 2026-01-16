@@ -7,7 +7,6 @@
 
 import { useState, useCallback, useMemo } from 'react';
 import {
-  ACSimulatorEngine,
   createEngine,
   SimulationState,
   Scenario,

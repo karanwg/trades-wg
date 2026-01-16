@@ -1,47 +1,24 @@
 // Wayground Sequencing Question Types
-
-export type ThemeId = 'cooking' | 'hvac' | 'piano';
-export type FeedbackType = 'multimeter' | 'tuner';
-
-export interface Theme {
-  id: ThemeId;
-  name: string;
-  icon: string;
-  bgGradient: string;
-  bgEmoji: string;
-  hasFeedbackPanel: boolean;
-  feedbackType?: FeedbackType;
-}
+// Simplified - no themes, generic feedback
 
 export interface ActionStep {
   id: string;
   label: string;
   icon: string;
-  category?: string;
-}
-
-export interface FeedbackReading {
-  display: string;
-  value: number;
-  unit: string;
-  status: 'normal' | 'warning' | 'danger';
-  description?: string;
-}
-
-export interface FeedbackConfig {
-  type: FeedbackType;
-  readings: Record<number, FeedbackReading>;
-  initialReading: FeedbackReading;
+  feedback?: string;      // Optional text feedback when this action is dropped
+  isCorrect: boolean;     // True if this is part of the correct sequence
+  correctOrder?: number;  // Position in correct sequence (0-indexed), only if isCorrect
 }
 
 export interface SequencingQuestion {
   id: string;
-  theme: ThemeId;
   title: string;
-  description: string;
-  correctSequence: ActionStep[];
-  distractors: ActionStep[];
-  feedbackConfig?: FeedbackConfig;
+  description: string;      // The question/problem statement
+  startingPoint: string;    // Text description of initial state
+  endingPoint: string;      // Text description of goal state
+  maxSteps: number;         // Maximum steps allowed
+  actions: ActionStep[];    // All actions (correct + distractors)
+  isBuiltIn?: boolean;      // True for sample questions (not deletable)
 }
 
 // Game State Types
@@ -64,10 +41,16 @@ export interface GameState {
   isDragOver: boolean;
   draggingId: string | null;
   newChainItemId: string | null;
+  currentFeedback: string | null;  // Current feedback text to display
 }
 
-export interface PlacedAction {
-  step: number;
-  action: ActionStep;
-  timestamp: Date;
+// Context Types
+export interface QuestionContextType {
+  questions: SequencingQuestion[];           // All questions (samples + custom)
+  customQuestions: SequencingQuestion[];     // Only user-created
+  sampleQuestions: SequencingQuestion[];     // Built-in samples
+  addQuestion: (q: SequencingQuestion) => void;
+  deleteQuestion: (id: string) => void;      // Only works for custom questions
+  getQuestion: (id: string) => SequencingQuestion | undefined;
+  isLoaded: boolean;                         // True after hydrating from localStorage
 }
