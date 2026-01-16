@@ -3,8 +3,8 @@ import "./globals.css";
 import { QuestionProvider } from "@/lib/sequencing/context";
 
 export const metadata: Metadata = {
-  title: "AC Fault Diagnosis Trainer",
-  description: "Master electrical troubleshooting for split AC systems",
+  title: "Sequence Question",
+  description: "Master procedural skills through interactive sequencing challenges",
 };
 
 export default function RootLayout({
