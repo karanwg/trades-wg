@@ -63,20 +63,22 @@ export default function TeacherPage() {
           <>
             {/* Header with Mode Toggle */}
             <div className="mb-10">
-              <div className="flex items-center justify-between mb-8">
-                <div>
-                  <h1 className="text-4xl font-black gradient-text mb-3">Create Question</h1>
-                  <p className="text-gray-600 text-lg">Build a new sequence for your students</p>
-                </div>
+              <div className="flex items-center gap-6 mb-8">
+                {/* Back Button */}
                 <button
                   onClick={() => router.push('/teacher')}
-                  className="flex items-center gap-2 px-4 py-2 rounded-lg bg-gray-100 text-gray-600 hover:bg-gray-200 hover:text-gray-900 transition-all font-medium"
+                  className="flex items-center justify-center w-10 h-10 rounded-lg bg-white hover:bg-gray-50 text-gray-600 hover:text-gray-900 transition-all shadow-sm shrink-0"
                 >
                   <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                   </svg>
-                  <span>Back</span>
                 </button>
+                
+                {/* Title */}
+                <div>
+                  <h1 className="text-4xl font-black gradient-text mb-3">Create Question</h1>
+                  <p className="text-gray-600 text-lg">Build a new sequence for your students</p>
+                </div>
               </div>
 
               {/* Mode Toggle */}
@@ -122,9 +124,19 @@ export default function TeacherPage() {
           </>
         ) : (
           <>
-            {/* Show form with generated data */}
+            {/* AI Generated Banner with Back Button */}
             <div className="mb-8">
               <div className="light-card p-6 flex items-start gap-4 border-2 border-purple-200">
+                {/* Back Button */}
+                <button
+                  onClick={handleBack}
+                  className="flex items-center justify-center w-10 h-10 rounded-lg bg-purple-500/10 text-purple-700 hover:bg-purple-500/20 transition-all shrink-0"
+                >
+                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+                
                 <div className="text-3xl">✨</div>
                 <div className="flex-1">
                   <h3 className="text-gray-900 font-bold text-lg mb-2">AI Generated Question</h3>
@@ -132,12 +144,6 @@ export default function TeacherPage() {
                     Review and edit the generated question below. You can modify any field before saving.
                   </p>
                 </div>
-                <button
-                  onClick={handleBack}
-                  className="px-4 py-2 rounded-lg bg-purple-500/10 text-purple-700 hover:bg-purple-500/20 transition-all font-medium"
-                >
-                  ← Back to prompt
-                </button>
               </div>
             </div>
             <QuestionForm onSave={handleSave} initialData={generatedData} />

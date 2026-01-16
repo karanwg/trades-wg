@@ -90,6 +90,18 @@ export function QuestionSelector({
       <div className="light-bg-shapes" />
 
       <div className="relative z-10 max-w-6xl mx-auto px-6 py-12">
+        {/* Back Button */}
+        <div className="mb-8">
+          <Link
+            href="/"
+            className="inline-flex items-center justify-center w-10 h-10 rounded-lg bg-white hover:bg-gray-50 text-gray-600 hover:text-gray-900 transition-all shadow-sm"
+          >
+            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </Link>
+        </div>
+
         {/* Header */}
         <div className="text-center mb-16">
           <h1 className="text-6xl font-black gradient-text mb-4">

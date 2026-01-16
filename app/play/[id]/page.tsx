@@ -13,7 +13,7 @@ export default function PlayPage() {
   const question = getQuestion(questionId);
 
   const handleBack = () => {
-    router.push('/play');
+    router.push('/');
   };
 
   // Loading state

@@ -26,12 +26,11 @@ export function ProgressHeader({
         {/* Left: Back button */}
         <button
           onClick={onBack}
-          className="flex items-center gap-2 text-white/60 hover:text-white transition-colors shrink-0"
+          className="flex items-center justify-center w-10 h-10 rounded-lg bg-white/10 hover:bg-white/20 text-white/80 hover:text-white transition-all shrink-0"
         >
           <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
           </svg>
-          <span className="text-sm font-medium">Back</span>
         </button>
 
         {/* Center: Question (takes remaining space) */}
