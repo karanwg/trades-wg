@@ -520,3 +520,243 @@ a:focus-visible {
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   padding: 16px 32px;
 }
+
+/* ========================================
+   LIGHT THEME STYLES (Teacher & Home)
+   ======================================== */
+
+/* Light Background with Gradients */
+.light-bg {
+  background: linear-gradient(135deg, #f8f9ff 0%, #fef5ff 50%, #fff8f0 100%);
+  min-height: 100vh;
+  position: relative;
+}
+
+/* Light Background Pattern */
+.light-bg-pattern {
+  position: fixed;
+  inset: 0;
+  background-image: 
+    radial-gradient(ellipse 80% 50% at 20% 20%, rgba(155, 89, 182, 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse 60% 40% at 80% 80%, rgba(232, 67, 147, 0.06) 0%, transparent 50%),
+    radial-gradient(ellipse 40% 30% at 50% 50%, rgba(245, 166, 35, 0.04) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Light Geometric Shapes */
+.light-bg-shapes {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.light-bg-shapes::before,
+.light-bg-shapes::after {
+  content: '';
+  position: absolute;
+  border: 1px solid rgba(155, 89, 182, 0.1);
+  border-radius: 50%;
+}
+
+.light-bg-shapes::before {
+  width: 500px;
+  height: 500px;
+  top: -150px;
+  right: -150px;
+  background: radial-gradient(circle, rgba(155, 89, 182, 0.03) 0%, transparent 70%);
+}
+
+.light-bg-shapes::after {
+  width: 400px;
+  height: 400px;
+  bottom: -100px;
+  left: -100px;
+  background: radial-gradient(circle, rgba(232, 67, 147, 0.03) 0%, transparent 70%);
+}
+
+/* Light Cards */
+.light-card {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+  border: 1px solid rgba(155, 89, 182, 0.1);
+  box-shadow: 
+    0 10px 40px rgba(0, 0, 0, 0.06),
+    0 2px 8px rgba(0, 0, 0, 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.light-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 20px 60px rgba(0, 0, 0, 0.1),
+    0 4px 12px rgba(0, 0, 0, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  border-color: rgba(155, 89, 182, 0.2);
+}
+
+/* Light Card with Gradient Border */
+.light-card-gradient {
+  position: relative;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+  padding: 2px;
+  background-clip: padding-box;
+  border: 2px solid transparent;
+}
+
+.light-card-gradient::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 20px;
+  padding: 2px;
+  background: linear-gradient(135deg, rgba(155, 89, 182, 0.3), rgba(232, 67, 147, 0.3), rgba(245, 166, 35, 0.2));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* Light Header */
+.light-header {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.03);
+}
+
+/* Light Button Primary */
+.light-button-primary {
+  background: linear-gradient(135deg, #9b59b6 0%, #e84393 100%);
+  color: white;
+  border-radius: 14px;
+  font-weight: 700;
+  padding: 14px 32px;
+  box-shadow: 
+    0 4px 20px rgba(155, 89, 182, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  border: none;
+  cursor: pointer;
+}
+
+.light-button-primary:hover:not(:disabled) {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 
+    0 8px 30px rgba(155, 89, 182, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.light-button-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Light Button Secondary */
+.light-button-secondary {
+  background: rgba(155, 89, 182, 0.08);
+  color: #6b4c7a;
+  border-radius: 14px;
+  font-weight: 600;
+  padding: 14px 32px;
+  border: 1px solid rgba(155, 89, 182, 0.2);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  cursor: pointer;
+}
+
+.light-button-secondary:hover {
+  background: rgba(155, 89, 182, 0.15);
+  border-color: rgba(155, 89, 182, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+/* Light Badge */
+.light-badge {
+  background: linear-gradient(135deg, rgba(155, 89, 182, 0.1) 0%, rgba(232, 67, 147, 0.1) 100%);
+  color: #6b4c7a;
+  border-radius: 12px;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  border: 1px solid rgba(155, 89, 182, 0.2);
+}
+
+/* Light Input */
+.light-input {
+  background: rgba(255, 255, 255, 0.9);
+  border: 2px solid rgba(155, 89, 182, 0.1);
+  border-radius: 12px;
+  padding: 12px 16px;
+  color: #2d1f3d;
+  font-size: 15px;
+  transition: all 0.2s ease;
+}
+
+.light-input:focus {
+  outline: none;
+  border-color: rgba(155, 89, 182, 0.4);
+  box-shadow: 0 0 0 4px rgba(155, 89, 182, 0.1);
+}
+
+.light-input::placeholder {
+  color: rgba(45, 31, 61, 0.4);
+}
+
+/* Light Textarea */
+.light-textarea {
+  background: rgba(255, 255, 255, 0.9);
+  border: 2px solid rgba(155, 89, 182, 0.1);
+  border-radius: 16px;
+  padding: 16px 20px;
+  color: #2d1f3d;
+  font-size: 15px;
+  line-height: 1.6;
+  resize: none;
+  transition: all 0.2s ease;
+}
+
+.light-textarea:focus {
+  outline: none;
+  border-color: rgba(155, 89, 182, 0.4);
+  box-shadow: 0 0 0 4px rgba(155, 89, 182, 0.1);
+}
+
+.light-textarea::placeholder {
+  color: rgba(45, 31, 61, 0.4);
+}
+
+/* Gradient Text */
+.gradient-text {
+  background: linear-gradient(135deg, #9b59b6 0%, #e84393 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Light Scrollbar */
+.light-scroll::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.light-scroll::-webkit-scrollbar-track {
+  background: rgba(155, 89, 182, 0.05);
+  border-radius: 4px;
+}
+
+.light-scroll::-webkit-scrollbar-thumb {
+  background: rgba(155, 89, 182, 0.2);
+  border-radius: 4px;
+}
+
+.light-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgba(155, 89, 182, 0.3);
+}
