@@ -42,7 +42,7 @@ export function ActionsPanel({
       </div>
 
       {/* Actions grid */}
-      <div className="flex-1 overflow-y-auto">
+      <div className="flex-1 overflow-y-auto p-2 -m-2">
         <div className="grid grid-cols-2 gap-3">
           {actions.map((action) => {
             const isShaking = shakingActionId === action.id;

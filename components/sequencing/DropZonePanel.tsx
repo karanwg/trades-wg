@@ -134,19 +134,6 @@ export function DropZonePanel({
         )}
       </div>
 
-      {/* Progress indicator */}
-      <div className="absolute bottom-4 left-4 right-4">
-        <div className="flex items-center justify-between text-white/60 text-sm mb-2">
-          <span>Progress</span>
-          <span>{chain.length} / {totalSteps}</span>
-        </div>
-        <div className="h-2 bg-black/30 rounded-full overflow-hidden">
-          <div 
-            className="h-full bg-gradient-to-r from-[var(--wg-accent-teal)] to-[var(--wg-accent-purple)] transition-all duration-500"
-            style={{ width: `${(chain.length / totalSteps) * 100}%` }}
-          />
-        </div>
-      </div>
     </div>
   );
 }

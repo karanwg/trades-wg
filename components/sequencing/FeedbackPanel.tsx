@@ -76,19 +76,6 @@ export function FeedbackPanel({
         )}
       </div>
 
-      {/* Progress Footer */}
-      <div className="p-4 border-t border-white/10 bg-black/20">
-        <div className="flex items-center justify-between text-sm">
-          <span className="text-white/50">Progress</span>
-          <span className="text-white/80 font-semibold">{currentStep} / {totalSteps} steps</span>
-        </div>
-        <div className="mt-2 h-2 bg-black/30 rounded-full overflow-hidden">
-          <div 
-            className="h-full bg-gradient-to-r from-[var(--wg-accent-teal)] to-[var(--wg-accent-purple)] transition-all duration-500"
-            style={{ width: `${(currentStep / totalSteps) * 100}%` }}
-          />
-        </div>
-      </div>
     </div>
   );
 }
