@@ -800,8 +800,8 @@ a:focus-visible {
 @media (max-width: 767px) {
   .wg-option-card-mobile {
     cursor: pointer;
-    padding: 10px;
-    border-radius: 10px;
+    padding: 8px;
+    border-radius: 6px;
     min-height: 56px;
   }
 
