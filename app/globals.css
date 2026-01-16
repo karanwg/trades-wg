@@ -394,8 +394,8 @@ a:focus-visible {
 /* Option Card (Draggable) */
 .wg-option-card {
   background: var(--wg-card-light);
-  border-radius: 12px;
-  padding: 10px 12px;
+  border-radius: 6px;
+  padding: 8px;
   font-weight: 700;
   font-size: 14px;
   color: #1a1025;
