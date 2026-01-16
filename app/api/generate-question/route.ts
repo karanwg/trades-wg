@@ -91,8 +91,10 @@ Make it realistic, practical, and educational. Include safety considerations if 
     // Parse the JSON response
     let questionData;
     try {
+      // Ensure content is a string
+      const contentString = typeof content === 'string' ? content : JSON.stringify(content);
       // Remove markdown code blocks if present
-      const cleanContent = content.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
+      const cleanContent = contentString.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
       questionData = JSON.parse(cleanContent);
     } catch (parseError) {
       console.error('Failed to parse AI response:', content);
