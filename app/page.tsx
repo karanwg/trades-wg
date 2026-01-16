@@ -1,21 +1,33 @@
 'use client';
 
 import { useState } from 'react';
-import { Scenario } from '@/lib/engine';
-import { ScenarioSelection } from '@/components/ScenarioSelection';
-import { SimulatorWorkspace } from '@/components/SimulatorWorkspace';
+import { Theme } from '@/lib/sequencing/types';
+import { getTheme } from '@/lib/sequencing/themes';
+import { getQuestion } from '@/lib/sequencing/questions';
+import { ThemeSelector } from '@/components/sequencing/ThemeSelector';
+import { SequencingGame } from '@/components/sequencing/SequencingGame';
 
-export default function Home() {
-  const [activeScenario, setActiveScenario] = useState<Scenario | null>(null);
+export default function SequencingPage() {
+  const [selectedTheme, setSelectedTheme] = useState<Theme | null>(null);
 
-  if (activeScenario) {
+  const handleSelectTheme = (theme: Theme) => {
+    setSelectedTheme(theme);
+  };
+
+  const handleChangeTheme = () => {
+    setSelectedTheme(null);
+  };
+
+  if (selectedTheme) {
+    const question = getQuestion(selectedTheme.id);
     return (
-      <SimulatorWorkspace
-        scenario={activeScenario}
-        onExit={() => setActiveScenario(null)}
+      <SequencingGame
+        theme={selectedTheme}
+        question={question}
+        onChangeTheme={handleChangeTheme}
       />
     );
   }
 
-  return <ScenarioSelection onSelectScenario={setActiveScenario} />;
+  return <ThemeSelector onSelectTheme={handleSelectTheme} />;
 }
