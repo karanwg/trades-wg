@@ -2,9 +2,6 @@
 
 import { ActionStep } from '@/lib/sequencing/types';
 
-// Default neutral gradient
-const NEUTRAL_GRADIENT = 'linear-gradient(135deg, #667eea 0%, #764ba2 50%, #6B8DD6 100%)';
-
 interface DropZonePanelProps {
   chain: ActionStep[];
   currentStep: number;
@@ -42,16 +39,13 @@ export function DropZonePanel({
         h-full relative rounded-2xl overflow-hidden transition-all duration-300
         ${isDragOver ? 'ring-4 ring-[var(--wg-accent-teal)] ring-opacity-50' : ''}
       `}
-      style={{ background: NEUTRAL_GRADIENT }}
+      style={{ background: 'rgba(18, 21, 23, 0.8)' }}
     >
-      {/* Background overlay for depth */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
-      
       {/* Dashed drop zone border */}
       <div className={`
         absolute inset-2 md:inset-4 border-2 md:border-3 border-dashed rounded-xl transition-all duration-300
         ${isDragOver 
-          ? 'border-white/60 bg-white/10' 
+          ? 'border-white/40 bg-white/5' 
           : 'border-white/20 bg-transparent'
         }
       `} />
