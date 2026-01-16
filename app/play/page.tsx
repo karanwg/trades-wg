@@ -10,15 +10,23 @@ function QuestionCard({ question }: { question: SequencingQuestion }) {
   return (
     <Link 
       href={`/play/${question.id}`}
-      className="block wg-card-dark border-2 border-white/30 rounded-2xl p-6 
+      className="group block wg-card-dark border-2 border-white/30 rounded-2xl p-6 
                  hover:border-[var(--wg-accent-purple)] hover:bg-white/10 hover:shadow-2xl hover:shadow-purple-500/20
+                 hover:scale-105 hover:-translate-y-1
                  transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-[var(--wg-accent-purple)]"
     >
       {/* Title */}
-      <h3 className="text-lg font-bold text-white mb-2">{question.title}</h3>
+      <h3 className="text-lg font-bold text-white mb-2 group-hover:text-[var(--wg-accent-purple)] transition-colors">{question.title}</h3>
       
       {/* Description */}
       <p className="text-white/70 text-sm mb-4 line-clamp-2">{question.description}</p>
+
+      {/* Arrow indicator */}
+      <div className="flex items-center justify-end mt-4">
+        <svg className="w-5 h-5 text-white/30 group-hover:text-[var(--wg-accent-purple)] transform group-hover:translate-x-1 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+        </svg>
+      </div>
     </Link>
   );
 }
@@ -123,7 +131,7 @@ export default function PlayPage() {
                       {isRolling ? 'Rolling...' : 'Random Question'}
                     </h2>
                     <p className="text-white/80">
-                      {isRolling ? 'Picking your question...' : 'Let fate decide your next question'}
+                      {isRolling ? 'Picking your question...' : 'Let fate decide your question'}
                     </p>
                   </div>
 
