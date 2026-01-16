@@ -78,6 +78,7 @@ export function SequencingGame({ question, onBack }: SequencingGameProps) {
 
   // Mobile-specific state
   const [showScenarioModal, setShowScenarioModal] = useState(true);
+  const [isScenarioAutoTriggered, setIsScenarioAutoTriggered] = useState(true); // True only on initial page load
   const [isLogCollapsed, setIsLogCollapsed] = useState(true);
 
   const currentStep = chain.length;
@@ -247,6 +248,7 @@ export function SequencingGame({ question, onBack }: SequencingGameProps) {
     setIsCompleted(false);
     setShowGoodJob(false);
     setShowScenarioModal(true);
+    setIsScenarioAutoTriggered(true); // Reset shows scenario with lock again
   }, [question.title]);
 
   // Mobile Layout
@@ -266,7 +268,11 @@ export function SequencingGame({ question, onBack }: SequencingGameProps) {
             title={question.title}
             startingPoint={question.startingPoint}
             endingPoint={question.endingPoint}
-            onContinue={() => setShowScenarioModal(false)}
+            isAutoTriggered={isScenarioAutoTriggered}
+            onContinue={() => {
+              setShowScenarioModal(false);
+              setIsScenarioAutoTriggered(false); // Future opens will not be auto-triggered
+            }}
           />
         )}
 
