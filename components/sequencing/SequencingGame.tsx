@@ -207,9 +207,19 @@ export function SequencingGame({ question, onBack }: SequencingGameProps) {
 
         {/* Main Content - fills remaining space */}
         <div className="flex-1 min-h-0 px-6 pb-4 flex flex-col gap-4">
-          {/* Top Row: Drop Zone + Feedback Panel (75/25 split) */}
-          <div className="flex-1 min-h-0 grid gap-4 grid-cols-[3fr_1fr]">
-            {/* Drop Zone (Top-Left) */}
+          {/* Top Row: Feedback Panel + Drop Zone (25/75 split) */}
+          <div className="flex-1 min-h-0 grid gap-4 grid-cols-[1fr_3fr]">
+            {/* Feedback Panel (Top-Left) */}
+            <FeedbackPanel
+              feedback={currentFeedback}
+              questionDescription={question.description}
+              startingPoint={question.startingPoint}
+              endingPoint={question.endingPoint}
+              currentStep={currentStep}
+              totalSteps={totalSteps}
+            />
+
+            {/* Drop Zone (Top-Right) */}
             <DropZonePanel
               chain={chain}
               currentStep={currentStep}
@@ -221,21 +231,16 @@ export function SequencingGame({ question, onBack }: SequencingGameProps) {
               onDragOver={handleDragOver}
               onDragLeave={handleDragLeave}
             />
-
-            {/* Feedback Panel (Top-Right) */}
-            <FeedbackPanel
-              feedback={currentFeedback}
-              questionDescription={question.description}
-              startingPoint={question.startingPoint}
-              endingPoint={question.endingPoint}
-              currentStep={currentStep}
-              totalSteps={totalSteps}
-            />
           </div>
 
-          {/* Bottom Row: Actions + Log (75/25 split) */}
-          <div className="flex-1 min-h-0 grid grid-cols-[3fr_1fr] gap-4">
-            {/* Actions Panel (Bottom-Left) */}
+          {/* Bottom Row: Log + Actions (25/75 split) */}
+          <div className="flex-1 min-h-0 grid grid-cols-[1fr_3fr] gap-4">
+            {/* Log Panel (Bottom-Left) */}
+            <div className="wg-card-dark p-4 min-h-0 overflow-hidden flex flex-col">
+              <LogPanel entries={log} />
+            </div>
+
+            {/* Actions Panel (Bottom-Right) */}
             <div className="wg-card-dark p-4 min-h-0 overflow-hidden flex flex-col">
               <ActionsPanel
                 actions={allActions}
@@ -245,11 +250,6 @@ export function SequencingGame({ question, onBack }: SequencingGameProps) {
                 onDragStart={handleDragStart}
                 onDragEnd={handleDragEnd}
               />
-            </div>
-
-            {/* Log Panel (Bottom-Right) */}
-            <div className="wg-card-dark p-4 min-h-0 overflow-hidden flex flex-col">
-              <LogPanel entries={log} />
             </div>
           </div>
         </div>
