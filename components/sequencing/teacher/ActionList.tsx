@@ -49,17 +49,17 @@ export function ActionList({ actions, onChange }: ActionListProps) {
   return (
     <div>
       {/* Header */}
-      <div className="flex items-center justify-between mb-4">
+      <div className="flex items-center justify-between mb-6">
         <div>
-          <h3 className="text-lg font-bold text-white">Actions</h3>
-          <p className="text-sm text-white/50">
+          <h3 className="text-xl font-bold text-gray-900">Actions</h3>
+          <p className="text-sm text-gray-600 mt-1">
             {correctCount} correct steps, {distractorCount} distractors
           </p>
         </div>
         <button
           type="button"
           onClick={handleAddAction}
-          className="wg-button wg-button-secondary px-4 py-2 text-sm"
+          className="light-button-secondary px-6 py-3 text-base"
         >
           + Add Action
         </button>
@@ -67,19 +67,19 @@ export function ActionList({ actions, onChange }: ActionListProps) {
 
       {/* Actions list */}
       {actions.length === 0 ? (
-        <div className="wg-card-dark p-8 text-center">
-          <div className="text-4xl mb-4">📝</div>
-          <p className="text-white/50 mb-4">No actions added yet</p>
+        <div className="bg-gradient-to-br from-purple-50 to-pink-50 border-2 border-dashed border-purple-200 rounded-2xl p-12 text-center">
+          <div className="text-6xl mb-4">📝</div>
+          <p className="text-gray-600 mb-6 text-lg">No actions added yet</p>
           <button
             type="button"
             onClick={handleAddAction}
-            className="wg-button wg-button-secondary"
+            className="light-button-primary px-8 py-3"
           >
             Add your first action
           </button>
         </div>
       ) : (
-        <div className="space-y-3">
+        <div className="space-y-4">
           {actions.map((action, index) => (
             <ActionEditor
               key={action.id}
@@ -98,9 +98,9 @@ export function ActionList({ actions, onChange }: ActionListProps) {
 
       {/* Help text */}
       {actions.length > 0 && (
-        <div className="mt-4 p-4 rounded-lg bg-white/5 border border-white/10">
-          <p className="text-sm text-white/50">
-            💡 <strong className="text-white/70">Tip:</strong> Mark the correct actions and set their order. 
+        <div className="mt-6 p-5 rounded-xl bg-purple-50 border border-purple-100">
+          <p className="text-sm text-gray-700 leading-relaxed">
+            💡 <strong className="text-purple-700">Tip:</strong> Mark the correct actions and set their order. 
             Add some wrong actions (distractors) to make it challenging!
           </p>
         </div>

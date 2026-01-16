@@ -26,30 +26,30 @@ function QuestionCard({
     <div className="group relative">
       <Link 
         href={`/play/${question.id}`}
-        className="block bg-[var(--wg-card-dark)] border border-white/10 rounded-2xl p-5 
-                   hover:border-[var(--wg-accent-purple)]/50 hover:bg-white/5 
-                   transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-[var(--wg-accent-purple)]"
+        className="block light-card p-6 
+                   hover:shadow-xl hover:scale-[1.02]
+                   transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-purple-400"
       >
         {/* Title */}
-        <h3 className="text-lg font-bold text-white mb-2 pr-8">{question.title}</h3>
+        <h3 className="text-lg font-bold text-gray-900 mb-2 pr-8 group-hover:text-purple-600 transition-colors">{question.title}</h3>
         
         {/* Description */}
-        <p className="text-white/50 text-sm mb-4 line-clamp-2">{question.description}</p>
+        <p className="text-gray-600 text-sm mb-4 line-clamp-2 leading-relaxed">{question.description}</p>
 
         {/* Stats */}
-        <div className="flex items-center gap-4 text-xs">
-          <div className="flex items-center gap-1.5 text-[var(--wg-success)]">
+        <div className="flex items-center gap-4 text-xs font-medium">
+          <div className="flex items-center gap-1.5 text-green-600">
             <span>✓</span>
             <span>{correctCount} steps</span>
           </div>
-          <div className="flex items-center gap-1.5 text-white/40">
+          <div className="flex items-center gap-1.5 text-gray-500">
             <span>⚡</span>
             <span>{distractorCount} distractors</span>
           </div>
         </div>
 
         {/* Hover indicator */}
-        <div className="absolute bottom-3 right-3 text-white/30 group-hover:text-[var(--wg-accent-purple)] transition-colors">
+        <div className="absolute bottom-5 right-5 text-gray-300 group-hover:text-purple-500 transition-colors">
           <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
           </svg>
@@ -64,8 +64,8 @@ function QuestionCard({
             e.stopPropagation();
             onDelete();
           }}
-          className="absolute top-3 right-3 p-2 rounded-lg bg-[var(--wg-error)]/20 text-[var(--wg-error)]
-                     opacity-0 group-hover:opacity-100 hover:bg-[var(--wg-error)]/30 transition-all z-10"
+          className="absolute top-4 right-4 p-2 rounded-lg bg-red-100 text-red-600
+                     opacity-0 group-hover:opacity-100 hover:bg-red-200 transition-all z-10"
           title="Delete question"
         >
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -84,72 +84,55 @@ export function QuestionSelector({
   onDeleteQuestion,
 }: QuestionSelectorProps) {
   return (
-    <div className="min-h-screen wg-background relative">
+    <div className="min-h-screen light-bg relative">
       {/* Background Effects */}
-      <div className="wg-bg-pattern" />
-      <div className="wg-bg-shapes" />
+      <div className="light-bg-pattern" />
+      <div className="light-bg-shapes" />
 
-      <div className="relative z-10 max-w-5xl mx-auto px-6 py-12">
+      <div className="relative z-10 max-w-6xl mx-auto px-6 py-12">
         {/* Header */}
-        <div className="text-center mb-12">
-          <h1 className="text-5xl font-black text-white mb-4">
+        <div className="text-center mb-16">
+          <h1 className="text-6xl font-black gradient-text mb-4">
             Sequencing Challenge
           </h1>
-          <p className="text-white/60 text-lg max-w-2xl mx-auto">
+          <p className="text-gray-600 text-xl max-w-2xl mx-auto">
             Put the steps in the right order. Learn by doing!
           </p>
         </div>
 
-        {/* Sample Questions Section */}
-        <div className="mb-12">
-          <div className="flex items-center gap-3 mb-6">
-            <span className="text-2xl">📚</span>
-            <h2 className="text-xl font-bold text-white">Sample Questions</h2>
-            <div className="flex-1 h-px bg-white/10" />
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {sampleQuestions.map((question) => (
-              <QuestionCard
-                key={question.id}
-                question={question}
-              />
-            ))}
-          </div>
-        </div>
-
-        {/* Custom Questions Section */}
-        <div className="mb-12">
-          <div className="flex items-center gap-3 mb-6">
-            <span className="text-2xl">✨</span>
-            <h2 className="text-xl font-bold text-white">Your Questions</h2>
-            <div className="flex-1 h-px bg-white/10" />
+        {/* YOUR QUESTIONS SECTION - MOVED TO TOP */}
+        <div className="mb-16">
+          <div className="flex items-center gap-4 mb-8">
+            <span className="text-3xl">✨</span>
+            <h2 className="text-2xl font-bold text-gray-900">Your Questions</h2>
+            <div className="flex-1 h-px bg-gradient-to-r from-purple-200 via-pink-200 to-transparent" />
             <Link
               href="/teacher"
-              className="wg-button wg-button-submit text-sm px-4 py-2"
+              className="light-button-primary px-6 py-3"
             >
               + Create New
             </Link>
           </div>
 
           {!isLoaded ? (
-            <div className="wg-card-dark p-8 text-center">
-              <div className="animate-spin w-8 h-8 border-2 border-white/20 border-t-white/80 rounded-full mx-auto mb-4" />
-              <p className="text-white/50">Loading...</p>
+            <div className="light-card p-12 text-center">
+              <div className="animate-spin w-10 h-10 border-3 border-purple-200 border-t-purple-600 rounded-full mx-auto mb-4" />
+              <p className="text-gray-600">Loading...</p>
             </div>
           ) : customQuestions.length === 0 ? (
-            <div className="wg-card-dark p-8 text-center">
-              <div className="text-4xl mb-4">📝</div>
-              <p className="text-white/50 mb-4">No custom questions yet</p>
+            <div className="bg-gradient-to-br from-purple-50 to-pink-50 border-2 border-dashed border-purple-200 rounded-2xl p-16 text-center">
+              <div className="text-6xl mb-6">📝</div>
+              <h3 className="text-xl font-bold text-gray-900 mb-3">No custom questions yet</h3>
+              <p className="text-gray-600 mb-6">Create your first sequencing challenge for students</p>
               <Link
                 href="/teacher"
-                className="wg-button wg-button-secondary inline-block"
+                className="light-button-primary inline-block px-8 py-3"
               >
                 Create your first question
               </Link>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {customQuestions.map((question) => (
                 <QuestionCard
                   key={question.id}
@@ -162,13 +145,31 @@ export function QuestionSelector({
           )}
         </div>
 
+        {/* SAMPLE QUESTIONS SECTION - MOVED TO BOTTOM */}
+        <div className="mb-12">
+          <div className="flex items-center gap-4 mb-8">
+            <span className="text-3xl">📚</span>
+            <h2 className="text-2xl font-bold text-gray-900">Sample Questions</h2>
+            <div className="flex-1 h-px bg-gradient-to-r from-purple-200 via-pink-200 to-transparent" />
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {sampleQuestions.map((question) => (
+              <QuestionCard
+                key={question.id}
+                question={question}
+              />
+            ))}
+          </div>
+        </div>
+
         {/* Footer Links */}
-        <div className="text-center">
+        <div className="text-center mt-16 pt-8 border-t border-purple-100">
           <Link
             href="/simulator"
-            className="text-white/40 hover:text-white/60 text-sm transition-colors"
+            className="text-gray-500 hover:text-purple-600 font-medium transition-colors inline-flex items-center gap-2"
           >
-            → Go to AC Repair Simulator
+            <span>→ Go to AC Repair Simulator</span>
           </Link>
         </div>
       </div>
