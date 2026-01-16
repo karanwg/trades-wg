@@ -62,7 +62,7 @@ export function ActionsPanel({
                 `}
               >
                 <DragHandle />
-                <span className="text-xl">{action.icon}</span>
+                {action.icon && <span className="text-xl">{action.icon}</span>}
                 <span className="flex-1 text-sm">{action.label}</span>
               </div>
             );

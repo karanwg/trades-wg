@@ -100,7 +100,7 @@ export function DropZonePanel({
                       <div className="wg-step-badge w-6 h-6 text-xs shrink-0">
                         {index + 1}
                       </div>
-                      <span className="text-lg">{item.icon}</span>
+                      {item.icon && <span className="text-lg">{item.icon}</span>}
                       <span className="text-sm font-semibold whitespace-nowrap">{item.label}</span>
                     </div>
                   </div>

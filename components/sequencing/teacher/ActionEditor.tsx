@@ -13,8 +13,8 @@ interface ActionEditorProps {
   canMoveDown: boolean;
 }
 
-// Common emoji suggestions for quick selection
-const EMOJI_SUGGESTIONS = ['⚡', '🔧', '✅', '❌', '⚠️', '📝', '🔴', '🟢', '💧', '🔥', '📞', '👀', '🛑', '🧪', '⏱️'];
+// Common emoji suggestions for quick selection - commented out for now
+// const EMOJI_SUGGESTIONS = ['⚡', '🔧', '✅', '❌', '⚠️', '📝', '🔴', '🟢', '💧', '🔥', '📞', '👀', '🛑', '🧪', '⏱️'];
 
 export function ActionEditor({
   action,
@@ -104,7 +104,7 @@ export function ActionEditor({
             </label>
           </div>
 
-          {/* Emoji quick picks */}
+          {/* Emoji quick picks - commented out for now
           <div className="flex items-center gap-1 flex-wrap">
             <span className="text-xs text-white/40 mr-2">Quick icons:</span>
             {EMOJI_SUGGESTIONS.map((emoji) => (
@@ -122,6 +122,7 @@ export function ActionEditor({
               </button>
             ))}
           </div>
+          */}
 
           {/* Row 2: Feedback (optional) */}
           <div>
