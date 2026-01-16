@@ -5,11 +5,11 @@
   --foreground: #e2e8f0;
   
   /* Wayground Design System */
-  --wg-bg-start: #4a1942;
-  --wg-bg-mid: #2d1f3d;
-  --wg-bg-end: #1a1025;
+  --wg-bg-start: #2D021A;
+  --wg-bg-mid: #750F48;
+  --wg-bg-end: #1A010F;
   
-  --wg-card-dark: rgba(30, 20, 40, 0.9);
+  --wg-card-dark: rgba(9, 9, 9, 0.2);
   --wg-card-light: rgba(255, 255, 255, 0.95);
   
   --wg-accent-gold: #f5a623;
