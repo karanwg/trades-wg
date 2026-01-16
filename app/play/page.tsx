@@ -1,49 +1,48 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useQuestions } from '@/lib/sequencing/context';
 import Link from 'next/link';
+import { SequencingQuestion } from '@/lib/sequencing/types';
 
-const WITTY_MESSAGES = [
-  'Shuffling the deck...',
-  'Consulting the RNG gods...',
-  'Picking your destiny...',
-  'Rolling the cosmic dice...',
-  'Mixing things up...',
-  'Randomizing neurons...',
-  'Choosing your adventure...',
-  'Spinning the wheel of fate...',
-  'Shaking things up...',
-  'Generating chaos...',
-];
+function QuestionCard({ question }: { question: SequencingQuestion }) {
+  return (
+    <Link 
+      href={`/play/${question.id}`}
+      className="block wg-card-dark border-2 border-white/30 rounded-2xl p-6 
+                 hover:border-[var(--wg-accent-purple)] hover:bg-white/10 hover:shadow-2xl hover:shadow-purple-500/20
+                 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-[var(--wg-accent-purple)]"
+    >
+      {/* Title */}
+      <h3 className="text-lg font-bold text-white mb-2">{question.title}</h3>
+      
+      {/* Description */}
+      <p className="text-white/70 text-sm mb-4 line-clamp-2">{question.description}</p>
+    </Link>
+  );
+}
 
-export default function RandomPlayPage() {
+export default function PlayPage() {
   const router = useRouter();
   const { questions, isLoaded } = useQuestions();
   const [isRolling, setIsRolling] = useState(false);
-  const [message, setMessage] = useState('');
 
-  // Auto-roll dice when questions are loaded
-  useEffect(() => {
-    if (isLoaded && questions.length > 0 && !isRolling) {
-      setIsRolling(true);
+  const handleRandomPlay = () => {
+    if (questions.length === 0 || isRolling) return;
+
+    setIsRolling(true);
+
+    // Brief animation before selecting
+    setTimeout(() => {
+      // Pick a random question
+      const randomIndex = Math.floor(Math.random() * questions.length);
+      const selectedQuestion = questions[randomIndex];
       
-      // Pick a random witty message
-      const randomMessage = WITTY_MESSAGES[Math.floor(Math.random() * WITTY_MESSAGES.length)];
-      setMessage(randomMessage);
-
-      // Animate for 1 second before selecting
-      setTimeout(() => {
-        // Pick a random question
-        const randomIndex = Math.floor(Math.random() * questions.length);
-        const selectedQuestion = questions[randomIndex];
-        
-        // Navigate to the question
-        router.push(`/play/${selectedQuestion.id}`);
-      }, 1000);
-    }
-  }, [isLoaded, questions, router, isRolling]);
+      // Navigate to the question
+      router.push(`/play/${selectedQuestion.id}`);
+    }, 300);
+  };
 
   if (!isLoaded) {
     return (
@@ -64,20 +63,29 @@ export default function RandomPlayPage() {
       <div className="wg-bg-pattern" />
       <div className="wg-bg-shapes" />
 
-      {/* Header */}
-      <div className="relative z-10 px-6 py-6">
-        <Link
-          href="/"
-          className="inline-flex items-center justify-center w-10 h-10 rounded-lg bg-white/10 hover:bg-white/20 text-white/80 hover:text-white transition-all"
-        >
-          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        </Link>
-      </div>
+      <div className="relative z-10 max-w-6xl mx-auto px-6 py-12 w-full">
+        {/* Back Button */}
+        <div className="mb-8">
+          <Link
+            href="/"
+            className="inline-flex items-center justify-center w-10 h-10 rounded-lg bg-white/10 hover:bg-white/20 text-white/80 hover:text-white transition-all"
+          >
+            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </Link>
+        </div>
 
-      {/* Main Content */}
-      <div className="relative z-10 flex-1 flex items-center justify-center px-6">
+        {/* Header */}
+        <div className="text-center mb-12">
+          <h1 className="text-5xl font-black text-white mb-4">
+            Select Your Question
+          </h1>
+          <p className="text-white/80 text-lg max-w-2xl mx-auto">
+            Pick a specific question or roll the dice for a random one
+          </p>
+        </div>
+
         {questions.length === 0 ? (
           <div className="wg-card-dark p-12 text-center">
             <div className="text-6xl mb-6">📝</div>
@@ -93,25 +101,54 @@ export default function RandomPlayPage() {
             </Link>
           </div>
         ) : (
-          <div className="text-center">
-            {/* Dice */}
-            <div className="relative w-40 h-40 mx-auto mb-8">
-              {/* Dice Container */}
-              <div className="w-40 h-40 rounded-3xl bg-gradient-to-br from-purple-500 via-pink-500 to-orange-400 flex items-center justify-center shadow-2xl animate-spin">
-                <div className="text-8xl filter drop-shadow-lg">
-                  🎲
-                </div>
-              </div>
+          <>
+            {/* Random Question Button */}
+            <div className="mb-12">
+              <button
+                onClick={handleRandomPlay}
+                disabled={isRolling}
+                className="group relative w-full wg-card-dark p-8 border-2 border-[var(--wg-accent-purple)]/50 hover:border-[var(--wg-accent-purple)] hover:shadow-2xl hover:shadow-purple-500/30 transition-all duration-300 disabled:opacity-50"
+              >
+                <div className="flex items-center justify-center gap-6">
+                  {/* Dice Icon */}
+                  <div className={`w-20 h-20 rounded-2xl bg-gradient-to-br from-purple-500 via-pink-500 to-orange-400 flex items-center justify-center shadow-xl ${isRolling ? 'animate-spin' : 'group-hover:scale-110 group-hover:rotate-12'} transition-all`}>
+                    <div className="text-5xl filter drop-shadow-lg">
+                      🎲
+                    </div>
+                  </div>
+                  
+                  {/* Text */}
+                  <div className="text-left">
+                    <h2 className="text-3xl font-bold text-white mb-2 group-hover:text-[var(--wg-accent-purple)] transition-colors">
+                      {isRolling ? 'Rolling...' : 'Random Question'}
+                    </h2>
+                    <p className="text-white/80">
+                      {isRolling ? 'Picking your question...' : 'Let fate decide your next question'}
+                    </p>
+                  </div>
 
-              {/* Glow Effect */}
-              <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-purple-500 via-pink-500 to-orange-400 blur-xl opacity-75 -z-10" />
+                  {/* Arrow */}
+                  <div className="text-white/50 group-hover:text-[var(--wg-accent-purple)] transition-colors text-3xl ml-auto">
+                    →
+                  </div>
+                </div>
+              </button>
             </div>
 
-            {/* Witty Message */}
-            <p className="text-white/70 text-lg font-bold animate-pulse">
-              {message}
-            </p>
-          </div>
+            {/* Divider */}
+            <div className="flex items-center gap-4 mb-8">
+              <div className="flex-1 h-px bg-white/20" />
+              <span className="text-white/60 text-sm font-bold">OR CHOOSE SPECIFIC</span>
+              <div className="flex-1 h-px bg-white/20" />
+            </div>
+
+            {/* Questions Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {questions.map((question) => (
+                <QuestionCard key={question.id} question={question} />
+              ))}
+            </div>
+          </>
         )}
       </div>
     </div>
