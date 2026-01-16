@@ -19,6 +19,7 @@ export interface SequencingQuestion {
   maxSteps: number;         // Maximum steps allowed
   actions: ActionStep[];    // All actions (correct + distractors)
   isBuiltIn?: boolean;      // True for sample questions (not deletable)
+  hidden?: boolean;         // True to hide from student view and randomizer
 }
 
 // Game State Types

@@ -24,7 +24,7 @@ export const SAMPLE_QUESTIONS: SequencingQuestion[] = [
     ],
   },
 
-  // 2. Jump-Starting a Car
+  // 2. Jump-Starting a Car (HIDDEN)
   {
     id: 'sample-jumpstart',
     title: 'Jump-Starting a Car',
@@ -33,6 +33,7 @@ export const SAMPLE_QUESTIONS: SequencingQuestion[] = [
     endingPoint: 'Your car is running and you can drive to get the battery checked or replaced.',
     maxSteps: 7,
     isBuiltIn: true,
+    hidden: true,
     actions: [
       { id: 'jump-1', label: 'Position cars close (not touching)', icon: '🚗', feedback: 'Cars positioned correctly. Hoods accessible.', isCorrect: true, correctOrder: 0 },
       { id: 'jump-2', label: 'Turn off both cars', icon: '🔑', feedback: 'Both ignitions off. Safe to proceed.', isCorrect: true, correctOrder: 1 },
@@ -95,7 +96,7 @@ export const SAMPLE_QUESTIONS: SequencingQuestion[] = [
     ],
   },
 
-  // 5. HVAC Capacitor Replacement
+  // 5. HVAC Capacitor Replacement (HIDDEN)
   {
     id: 'sample-hvac',
     title: 'Replace Run Capacitor',
@@ -104,6 +105,7 @@ export const SAMPLE_QUESTIONS: SequencingQuestion[] = [
     endingPoint: 'New capacitor installed. AC unit cooling normally with proper current draw.',
     maxSteps: 6,
     isBuiltIn: true,
+    hidden: true,
     actions: [
       { id: 'hvac-1', label: 'Turn off power at breaker', icon: '🔴', feedback: 'Power disconnected at main breaker. Verify with meter.', isCorrect: true, correctOrder: 0 },
       { id: 'hvac-2', label: 'Discharge the capacitor', icon: '⚡', feedback: 'Capacitor discharged safely. No stored energy.', isCorrect: true, correctOrder: 1 },
@@ -137,6 +139,102 @@ export const SAMPLE_QUESTIONS: SequencingQuestion[] = [
       { id: 'cook-d1', label: 'Add noodles to cold water', icon: '🥶', feedback: undefined, isCorrect: false },
       { id: 'cook-d2', label: 'Microwave the packet', icon: '📻', feedback: undefined, isCorrect: false },
       { id: 'cook-d3', label: 'Add seasoning before cooking', icon: '❓', feedback: undefined, isCorrect: false },
+    ],
+  },
+
+  // 7. Wind Turbine Technician - Blade Inspection
+  {
+    id: 'sample-wind-turbine',
+    title: 'Wind Turbine Blade Inspection',
+    description: 'Perform a scheduled inspection of wind turbine blades. Safety at height is critical!',
+    startingPoint: 'You\'ve arrived at the wind farm for a routine blade inspection. The turbine has been de-energized and locked out.',
+    endingPoint: 'Inspection complete. Blade condition documented and any issues reported to maintenance.',
+    maxSteps: 7,
+    isBuiltIn: true,
+    actions: [
+      { id: 'wind-1', label: 'Verify LOTO is in place', icon: '🔒', feedback: 'Lockout/Tagout verified. Turbine is safe to climb.', isCorrect: true, correctOrder: 0 },
+      { id: 'wind-2', label: 'Don fall protection harness', icon: '🦺', feedback: 'Harness secured. All clips inspected and rated.', isCorrect: true, correctOrder: 1 },
+      { id: 'wind-3', label: 'Ascend to nacelle', icon: '🧗', feedback: 'Reached nacelle. Secured to anchor point.', isCorrect: true, correctOrder: 2 },
+      { id: 'wind-4', label: 'Position blade for access', icon: '🔄', feedback: 'Blade positioned at 6 o\'clock for inspection.', isCorrect: true, correctOrder: 3 },
+      { id: 'wind-5', label: 'Inspect blade surface', icon: '🔍', feedback: 'Visual inspection complete. Minor erosion noted on leading edge.', isCorrect: true, correctOrder: 4 },
+      { id: 'wind-6', label: 'Document findings with photos', icon: '📸', feedback: 'All damage areas photographed and GPS-tagged.', isCorrect: true, correctOrder: 5 },
+      { id: 'wind-7', label: 'Descend and complete report', icon: '📋', feedback: 'Report submitted. Turbine ready for return to service.', isCorrect: true, correctOrder: 6 },
+      // Distractors
+      { id: 'wind-d1', label: 'Climb without fall protection', icon: '💀', feedback: undefined, isCorrect: false },
+      { id: 'wind-d2', label: 'Skip LOTO verification', icon: '⚠️', feedback: undefined, isCorrect: false },
+      { id: 'wind-d3', label: 'Work during high winds', icon: '🌪️', feedback: undefined, isCorrect: false },
+    ],
+  },
+
+  // 8. Solar Panel Technician - Installation
+  {
+    id: 'sample-solar-install',
+    title: 'Rooftop Solar Panel Installation',
+    description: 'Install a residential solar panel array. Proper sequence ensures safety and optimal performance.',
+    startingPoint: 'Mounting rails are installed on the roof. Solar panels and inverter are on-site ready for installation.',
+    endingPoint: 'Solar array is installed, connected, and producing power. System is monitored and operational.',
+    maxSteps: 7,
+    isBuiltIn: true,
+    actions: [
+      { id: 'solar-1', label: 'De-energize main breaker', icon: '🔴', feedback: 'Main breaker off. Safe to work on electrical.', isCorrect: true, correctOrder: 0 },
+      { id: 'solar-2', label: 'Mount panels to rails', icon: '🔧', feedback: 'Panels secured with mid and end clamps. Aligned perfectly.', isCorrect: true, correctOrder: 1 },
+      { id: 'solar-3', label: 'Connect panel strings', icon: '🔌', feedback: 'MC4 connectors clicked. String wiring complete.', isCorrect: true, correctOrder: 2 },
+      { id: 'solar-4', label: 'Run conduit to inverter', icon: '🏠', feedback: 'Conduit routed and secured. Wires pulled through.', isCorrect: true, correctOrder: 3 },
+      { id: 'solar-5', label: 'Wire inverter and breaker', icon: '⚡', feedback: 'Inverter connected. Dedicated breaker installed.', isCorrect: true, correctOrder: 4 },
+      { id: 'solar-6', label: 'Commission the system', icon: '✅', feedback: 'System powered on. Producing 5.2kW as expected!', isCorrect: true, correctOrder: 5 },
+      { id: 'solar-7', label: 'Configure monitoring app', icon: '📱', feedback: 'App connected. Customer can track production.', isCorrect: true, correctOrder: 6 },
+      // Distractors
+      { id: 'solar-d1', label: 'Connect panels before mounting', icon: '❌', feedback: undefined, isCorrect: false },
+      { id: 'solar-d2', label: 'Work with panels energized', icon: '💀', feedback: undefined, isCorrect: false },
+      { id: 'solar-d3', label: 'Skip grounding conductors', icon: '⚠️', feedback: undefined, isCorrect: false },
+    ],
+  },
+
+  // 9. Data Centre Technician - Server Replacement
+  {
+    id: 'sample-datacentre',
+    title: 'Data Centre Server Replacement',
+    description: 'Replace a failed server in a live data centre. Minimize downtime while following change management.',
+    startingPoint: 'A server has failed and needs hot-swap replacement. You have the replacement unit and approved change ticket.',
+    endingPoint: 'New server is racked, cabled, and provisioned. Services restored and verified.',
+    maxSteps: 7,
+    isBuiltIn: true,
+    actions: [
+      { id: 'dc-1', label: 'Verify change ticket approval', icon: '📋', feedback: 'Change #4521 approved. Maintenance window active.', isCorrect: true, correctOrder: 0 },
+      { id: 'dc-2', label: 'Identify failed server location', icon: '🔍', feedback: 'Server located: Rack A15, Unit 22-24. LED indicates fault.', isCorrect: true, correctOrder: 1 },
+      { id: 'dc-3', label: 'Migrate VMs to other hosts', icon: '🔄', feedback: 'Live migration complete. All VMs running on healthy hosts.', isCorrect: true, correctOrder: 2 },
+      { id: 'dc-4', label: 'Disconnect and remove server', icon: '🔌', feedback: 'Power, network, and management cables disconnected. Server removed.', isCorrect: true, correctOrder: 3 },
+      { id: 'dc-5', label: 'Rack and cable new server', icon: '🖥️', feedback: 'New server mounted. All cables connected and dressed.', isCorrect: true, correctOrder: 4 },
+      { id: 'dc-6', label: 'Configure and provision', icon: '⚙️', feedback: 'BIOS configured. OS deployed via PXE. Joined to cluster.', isCorrect: true, correctOrder: 5 },
+      { id: 'dc-7', label: 'Verify and close ticket', icon: '✅', feedback: 'All checks passed. Ticket closed. Incident resolved.', isCorrect: true, correctOrder: 6 },
+      // Distractors
+      { id: 'dc-d1', label: 'Remove server before VM migration', icon: '💥', feedback: undefined, isCorrect: false },
+      { id: 'dc-d2', label: 'Skip change approval process', icon: '🚫', feedback: undefined, isCorrect: false },
+      { id: 'dc-d3', label: 'Force shutdown running VMs', icon: '⛔', feedback: undefined, isCorrect: false },
+    ],
+  },
+
+  // 10. Elevator Installer - Door System Setup
+  {
+    id: 'sample-elevator',
+    title: 'Elevator Door System Installation',
+    description: 'Install and adjust the door operator system on a new elevator. Precision and safety are essential.',
+    startingPoint: 'The elevator car and hoistway are complete. Door operator components are ready for installation on the landing.',
+    endingPoint: 'Door system installed, adjusted, and passing all safety tests. Ready for inspection.',
+    maxSteps: 7,
+    isBuiltIn: true,
+    actions: [
+      { id: 'elev-1', label: 'Lock out elevator controls', icon: '🔒', feedback: 'Elevator locked in safe mode. Controls disabled.', isCorrect: true, correctOrder: 0 },
+      { id: 'elev-2', label: 'Mount door operator header', icon: '🔧', feedback: 'Header bracket secured. Level and plumb verified.', isCorrect: true, correctOrder: 1 },
+      { id: 'elev-3', label: 'Install door panels', icon: '🚪', feedback: 'Door panels hung and sliding freely on track.', isCorrect: true, correctOrder: 2 },
+      { id: 'elev-4', label: 'Connect drive motor', icon: '⚡', feedback: 'Motor mounted and belt tensioned to spec.', isCorrect: true, correctOrder: 3 },
+      { id: 'elev-5', label: 'Wire safety sensors', icon: '👁️', feedback: 'Light curtain and door edge sensors wired and tested.', isCorrect: true, correctOrder: 4 },
+      { id: 'elev-6', label: 'Adjust door timing', icon: '⏱️', feedback: 'Open/close speed calibrated. Dwell time set to code.', isCorrect: true, correctOrder: 5 },
+      { id: 'elev-7', label: 'Test with safety checks', icon: '✅', feedback: 'All safety tests pass. Door reverses on obstruction.', isCorrect: true, correctOrder: 6 },
+      // Distractors
+      { id: 'elev-d1', label: 'Test without lockout', icon: '💀', feedback: undefined, isCorrect: false },
+      { id: 'elev-d2', label: 'Skip sensor installation', icon: '⚠️', feedback: undefined, isCorrect: false },
+      { id: 'elev-d3', label: 'Bypass safety interlocks', icon: '🚫', feedback: undefined, isCorrect: false },
     ],
   },
 ];

@@ -24,9 +24,14 @@ export function QuestionProvider({ children }: { children: ReactNode }) {
     setCustomQuestions((prev) => prev.filter((q) => q.id !== id));
   }, [setCustomQuestions]);
 
+  // Filter out hidden questions for student-facing views
+  const visibleSampleQuestions = useMemo(() => {
+    return SAMPLE_QUESTIONS.filter(q => !q.hidden);
+  }, []);
+
   const questions = useMemo(() => {
-    return [...SAMPLE_QUESTIONS, ...customQuestions];
-  }, [customQuestions]);
+    return [...visibleSampleQuestions, ...customQuestions];
+  }, [visibleSampleQuestions, customQuestions]);
 
   const getQuestion = useCallback((id: string) => {
     return questions.find((q) => q.id === id);
@@ -35,12 +40,12 @@ export function QuestionProvider({ children }: { children: ReactNode }) {
   const value: QuestionContextType = useMemo(() => ({
     questions,
     customQuestions,
-    sampleQuestions: SAMPLE_QUESTIONS,
+    sampleQuestions: visibleSampleQuestions,
     addQuestion,
     deleteQuestion,
     getQuestion,
     isLoaded,
-  }), [questions, customQuestions, addQuestion, deleteQuestion, getQuestion, isLoaded]);
+  }), [questions, customQuestions, visibleSampleQuestions, addQuestion, deleteQuestion, getQuestion, isLoaded]);
 
   return (
     <QuestionContext.Provider value={value}>
