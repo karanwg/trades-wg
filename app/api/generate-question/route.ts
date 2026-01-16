@@ -36,7 +36,7 @@ export async function POST(request: NextRequest) {
       messages: [
         {
           role: 'system',
-          content: `You are an expert at creating educational sequencing challenges for trades and technical training. Generate a sequencing question based on the user's prompt.
+          content: `You are an expert at creating educational sequencing questions for trades and technical training. Generate a sequencing question based on the user's prompt.
 
 The question should have:
 1. A clear title (short, descriptive)

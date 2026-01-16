@@ -105,7 +105,7 @@ export function QuestionSelector({
         {/* Header */}
         <div className="text-center mb-16">
           <h1 className="text-6xl font-black gradient-text mb-4">
-            Sequence Challenge
+            Sequence Question
           </h1>
           <p className="text-gray-600 text-xl max-w-2xl mx-auto">
             Put the steps in the right order. Learn by doing!
@@ -135,7 +135,7 @@ export function QuestionSelector({
             <div className="bg-gradient-to-br from-purple-50 to-pink-50 border-2 border-dashed border-purple-200 rounded-2xl p-16 text-center">
               <div className="text-6xl mb-6">📝</div>
               <h3 className="text-xl font-bold text-gray-900 mb-3">No custom questions yet</h3>
-              <p className="text-gray-600 mb-6">Create your first sequencing challenge for students</p>
+              <p className="text-gray-600 mb-6">Create your first sequencing question for students</p>
               <Link
                 href="/create"
                 className="light-button-primary inline-block px-8 py-3"

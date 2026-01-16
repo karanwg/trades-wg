@@ -16,7 +16,7 @@ export default function LandingPage() {
             Sequence Question
           </h1>
           <p className="text-gray-600 text-xl">
-            Master procedural skills through interactive sequencing challenges
+            Master procedural skills through interactive sequencing questions
           </p>
         </div>
 

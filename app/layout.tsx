@@ -4,7 +4,7 @@ import { QuestionProvider } from "@/lib/sequencing/context";
 
 export const metadata: Metadata = {
   title: "Sequence Question",
-  description: "Master procedural skills through interactive sequencing challenges",
+  description: "Master procedural skills through interactive sequencing questions",
 };
 
 export default function RootLayout({
