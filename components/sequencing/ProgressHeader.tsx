@@ -53,8 +53,8 @@ export function ProgressHeader({
           </div>
 
           {/* Score */}
-          <div className="wg-score-badge wg-animate-float">
-            ⭐ {score}
+          <div className="wg-score-badge">
+            🪙 {score}
           </div>
 
           {/* Reset button */}
