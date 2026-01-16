@@ -62,13 +62,13 @@ export function CompletionModal({
             onClick={onBack}
             className="wg-button wg-button-reset flex-1"
           >
-            Back to Questions
+            Roll Again
           </button>
           <button
             onClick={onPlayAgain}
             className="wg-button wg-button-submit flex-1"
           >
-            Play Again
+            Retry
           </button>
         </div>
       </div>

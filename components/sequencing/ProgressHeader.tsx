@@ -47,7 +47,7 @@ export function ProgressHeader({
         {/* Right: Step counter, Score, reset */}
         <div className="flex items-center gap-3 shrink-0">
           {/* Step counter */}
-          <div className="wg-score-badge">
+          <div className="wg-score-badge !px-3">
             {currentStep} / {totalSteps}
           </div>
 

@@ -5,15 +5,33 @@ import { useRouter } from 'next/navigation';
 import { useQuestions } from '@/lib/sequencing/context';
 import Link from 'next/link';
 
+const WITTY_MESSAGES = [
+  'Shuffling the deck...',
+  'Consulting the RNG gods...',
+  'Picking your destiny...',
+  'Rolling the cosmic dice...',
+  'Mixing things up...',
+  'Randomizing neurons...',
+  'Choosing your adventure...',
+  'Spinning the wheel of fate...',
+  'Shaking things up...',
+  'Generating chaos...',
+];
+
 export default function RandomPlayPage() {
   const router = useRouter();
   const { questions, isLoaded } = useQuestions();
   const [isRolling, setIsRolling] = useState(false);
+  const [message, setMessage] = useState('');
 
   // Auto-roll dice when questions are loaded
   useEffect(() => {
     if (isLoaded && questions.length > 0 && !isRolling) {
       setIsRolling(true);
+      
+      // Pick a random witty message
+      const randomMessage = WITTY_MESSAGES[Math.floor(Math.random() * WITTY_MESSAGES.length)];
+      setMessage(randomMessage);
 
       // Animate for 1 second before selecting
       setTimeout(() => {
@@ -75,16 +93,24 @@ export default function RandomPlayPage() {
             </Link>
           </div>
         ) : (
-          <div className="relative w-40 h-40">
-            {/* Dice Container */}
-            <div className="w-40 h-40 rounded-3xl bg-gradient-to-br from-purple-500 via-pink-500 to-orange-400 flex items-center justify-center shadow-2xl animate-spin">
-              <div className="text-8xl filter drop-shadow-lg">
-                🎲
+          <div className="text-center">
+            {/* Dice */}
+            <div className="relative w-40 h-40 mx-auto mb-8">
+              {/* Dice Container */}
+              <div className="w-40 h-40 rounded-3xl bg-gradient-to-br from-purple-500 via-pink-500 to-orange-400 flex items-center justify-center shadow-2xl animate-spin">
+                <div className="text-8xl filter drop-shadow-lg">
+                  🎲
+                </div>
               </div>
+
+              {/* Glow Effect */}
+              <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-purple-500 via-pink-500 to-orange-400 blur-xl opacity-75 -z-10" />
             </div>
 
-            {/* Glow Effect */}
-            <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-purple-500 via-pink-500 to-orange-400 blur-xl opacity-75 -z-10" />
+            {/* Witty Message */}
+            <p className="text-white/70 text-lg font-bold animate-pulse">
+              {message}
+            </p>
           </div>
         )}
       </div>
