@@ -37,7 +37,7 @@ export function DropZonePanel({
       onDragOver={onDragOver}
       onDragLeave={onDragLeave}
       className={`
-        relative rounded-2xl overflow-hidden transition-all duration-300
+        h-full relative rounded-2xl overflow-hidden transition-all duration-300
         ${isDragOver ? 'ring-4 ring-[var(--wg-accent-teal)] ring-opacity-50' : ''}
       `}
       style={{ background: NEUTRAL_GRADIENT }}
@@ -55,7 +55,7 @@ export function DropZonePanel({
       `} />
 
       {/* Content area */}
-      <div className="relative z-10 p-8 min-h-[320px] flex flex-col">
+      <div className="relative z-10 p-6 h-full flex flex-col">
         {/* Empty state */}
         {chain.length === 0 && (
           <div className="flex-1 flex flex-col items-center justify-center">
