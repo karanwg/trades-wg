@@ -84,7 +84,7 @@ export function AIQuestionGenerator({ onGenerated, onCancel }: AIQuestionGenerat
       {/* Prompt Input */}
       <div>
         <label className="block text-sm font-semibold text-gray-700 mb-4">
-          What kind of sequencing challenge do you want to create?
+          What kind of sequence do you want to create?
         </label>
         <textarea
           value={prompt}
@@ -167,7 +167,7 @@ export function AIQuestionGenerator({ onGenerated, onCancel }: AIQuestionGenerat
         <div className="space-y-3">
           {[
             'Create a question about troubleshooting a furnace that won\'t ignite, including safety checks',
-            'Make a sequencing challenge for proper ladder safety setup for working at heights',
+            'Make a sequence for proper ladder safety setup for working at heights',
             'Generate a medical emergency scenario for treating a choking victim',
           ].map((example, i) => (
             <button

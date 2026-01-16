@@ -50,11 +50,11 @@ export function ScenarioSelection({ onSelectScenario }: ScenarioSelectionProps) 
             {/* Navigation */}
             <div className="flex items-center gap-3">
               <Link
-                href="/teacher"
+                href="/create"
                 className="flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-500/10 text-purple-700 hover:bg-purple-500/20 transition-all font-medium"
               >
-                <span>👨‍🏫</span>
-                <span>Teacher Mode</span>
+                <span>✏️</span>
+                <span>Create Question</span>
               </Link>
             </div>
           </div>
