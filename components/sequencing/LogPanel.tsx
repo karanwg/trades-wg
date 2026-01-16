@@ -5,6 +5,9 @@ import { LogEntry } from '@/lib/sequencing/types';
 
 interface LogPanelProps {
   entries: LogEntry[];
+  isCollapsed?: boolean;
+  onToggle?: () => void;
+  isMobile?: boolean;
 }
 
 function formatTime(date: Date): string {
@@ -16,16 +19,152 @@ function formatTime(date: Date): string {
   });
 }
 
-export function LogPanel({ entries }: LogPanelProps) {
+export function LogPanel({ entries, isCollapsed = false, onToggle, isMobile = false }: LogPanelProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
 
   // Auto-scroll to bottom when new entries are added
   useEffect(() => {
-    if (scrollRef.current) {
+    if (scrollRef.current && !isCollapsed) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
-  }, [entries.length]);
+  }, [entries.length, isCollapsed]);
 
+  // Mobile collapsed view - sticky bar
+  if (isMobile && isCollapsed) {
+    return (
+      <button
+        onClick={onToggle}
+        className="w-full flex items-center justify-between px-4 py-3 bg-black/40 backdrop-blur-md border-t border-white/10"
+      >
+        <div className="flex items-center gap-2">
+          <h3 className="text-white/80 text-sm font-semibold uppercase tracking-wider">
+            Log
+          </h3>
+          <span className="text-white/50 text-xs">
+            ({entries.length} {entries.length === 1 ? 'entry' : 'entries'})
+          </span>
+        </div>
+        <svg 
+          className="w-5 h-5 text-white/60" 
+          fill="none" 
+          viewBox="0 0 24 24" 
+          stroke="currentColor"
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+        </svg>
+      </button>
+    );
+  }
+
+  // Mobile expanded view - overlay drawer
+  if (isMobile) {
+    return (
+      <div className="fixed inset-0 z-40 flex flex-col justify-end">
+        {/* Background overlay */}
+        <div 
+          className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+          onClick={onToggle}
+        />
+        
+        {/* Drawer panel */}
+        <div className="relative flex flex-col bg-[#1a0a12] border-t border-white/20 max-h-[50vh] rounded-t-2xl wg-animate-slide-up">
+          {/* Header - clickable to collapse */}
+          <button
+            onClick={onToggle}
+            className="flex items-center justify-between px-4 py-3 border-b border-white/10"
+          >
+            <div className="flex items-center gap-2">
+              <h3 className="text-white/80 text-sm font-semibold uppercase tracking-wider">
+                Log
+              </h3>
+              <span className="text-white/50 text-xs">
+                ({entries.length} {entries.length === 1 ? 'entry' : 'entries'})
+              </span>
+            </div>
+            <svg 
+              className="w-5 h-5 text-white/60" 
+              fill="none" 
+              viewBox="0 0 24 24" 
+              stroke="currentColor"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+
+          {/* Log entries */}
+          <div 
+            ref={scrollRef}
+            className="flex-1 overflow-y-auto p-3 space-y-2"
+          >
+            {entries.length === 0 ? (
+              <div className="flex items-center justify-center py-4">
+                <p className="text-white/30 text-sm">No actions yet</p>
+              </div>
+            ) : (
+              entries.map((entry, index) => (
+                <div
+                  key={entry.id}
+                  className={`
+                    flex items-start gap-2 p-2 rounded-lg
+                    ${entry.status === 'success' 
+                      ? 'bg-[var(--wg-success)]/10 border border-[var(--wg-success)]/20' 
+                      : entry.status === 'error' 
+                        ? 'bg-[var(--wg-error)]/10 border border-[var(--wg-error)]/20'
+                        : 'bg-white/5 border border-white/5'
+                    }
+                    ${index === entries.length - 1 ? 'wg-animate-fade-in' : ''}
+                  `}
+                >
+                  {/* Status icon */}
+                  <div className={`
+                    w-5 h-5 rounded-full flex items-center justify-center shrink-0
+                    ${entry.status === 'success' 
+                      ? 'bg-[var(--wg-success)]/20 text-[var(--wg-success)]' 
+                      : entry.status === 'error' 
+                        ? 'bg-[var(--wg-error)]/20 text-[var(--wg-error)]'
+                        : 'bg-white/10 text-white/60'
+                    }
+                  `}>
+                    {entry.status === 'success' ? (
+                      <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                    ) : entry.status === 'error' ? (
+                      <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    ) : (
+                      <span className="text-xs">{entry.icon || 'ℹ️'}</span>
+                    )}
+                  </div>
+
+                  {/* Content */}
+                  <div className="flex-1 min-w-0">
+                    <p className={`
+                      text-xs font-medium
+                      ${entry.status === 'success' 
+                        ? 'text-[var(--wg-success)]' 
+                        : entry.status === 'error' 
+                          ? 'text-[var(--wg-error)]'
+                          : 'text-white/80'
+                      }
+                    `}>
+                      {entry.action}
+                    </p>
+                    <p className="text-[10px] text-white/40 mt-0.5">
+                      {formatTime(entry.timestamp)}
+                    </p>
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Desktop view - original layout
   return (
     <div className="h-full flex flex-col">
       {/* Header */}

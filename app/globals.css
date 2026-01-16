@@ -791,3 +791,135 @@ a:focus-visible {
 .light-scroll::-webkit-scrollbar-thumb:hover {
   background: rgba(155, 89, 182, 0.3);
 }
+
+/* ========================================
+   MOBILE-SPECIFIC STYLES
+   ======================================== */
+
+/* Mobile Option Card (Tappable) */
+@media (max-width: 767px) {
+  .wg-option-card-mobile {
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 10px;
+    min-height: 56px;
+  }
+
+  .wg-option-card-mobile:hover {
+    transform: none;
+    box-shadow: 
+      0 4px 16px rgba(0, 0, 0, 0.15),
+      0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .wg-option-card-mobile:active {
+    cursor: pointer;
+    transform: scale(0.97);
+    background: rgba(255, 255, 255, 0.85);
+  }
+}
+
+/* Collapsible Scenario Section */
+.wg-scenario-collapsed {
+  background: var(--wg-card-dark);
+  border-radius: 12px;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.wg-scenario-collapsed:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.wg-scenario-collapsed:active {
+  transform: scale(0.98);
+}
+
+/* Mobile Log Panel Animation */
+@keyframes wg-slide-up {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes wg-slide-down {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+}
+
+.wg-animate-slide-up {
+  animation: wg-slide-up 0.3s ease-out forwards;
+}
+
+.wg-animate-slide-down {
+  animation: wg-slide-down 0.3s ease-out forwards;
+}
+
+/* Mobile Safe Area Padding */
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+  .wg-safe-area-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+/* Mobile Touch Feedback */
+@media (max-width: 767px) {
+  .wg-touch-feedback {
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .wg-touch-feedback:active {
+    background: rgba(255, 255, 255, 0.05);
+  }
+}
+
+/* Mobile Chain Item */
+@media (max-width: 767px) {
+  .wg-chain-item {
+    border-radius: 12px;
+    padding: 10px 14px;
+    font-size: 13px;
+  }
+  
+  .wg-step-badge {
+    width: 24px;
+    height: 24px;
+    font-size: 12px;
+  }
+}
+
+/* Mobile Card Dark */
+@media (max-width: 767px) {
+  .wg-card-dark {
+    border-radius: 16px;
+  }
+}
+
+/* Scenario Modal Overlay */
+.wg-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}

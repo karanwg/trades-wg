@@ -20,47 +20,54 @@ export function ProgressHeader({
   onBack,
 }: ProgressHeaderProps) {
   return (
-    <div className="px-6 py-4">
+    <div className="px-4 md:px-6 py-3 md:py-4">
       {/* Top bar: Back button, question, score, reset */}
-      <div className="flex items-center gap-4">
-        {/* Left: Back button */}
+      <div className="flex items-center gap-3 md:gap-4">
+        {/* Left: Back button - arrow on mobile, X on desktop */}
         <button
           onClick={onBack}
           className="flex items-center justify-center w-10 h-10 rounded-lg bg-white/10 hover:bg-white/20 text-white/80 hover:text-white transition-all shrink-0"
         >
-          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          {/* Arrow icon on mobile */}
+          <svg className="w-5 h-5 md:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+          </svg>
+          {/* X icon on desktop */}
+          <svg className="w-5 h-5 hidden md:block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
           </svg>
         </button>
 
         {/* Center: Question (takes remaining space) */}
         <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-3">
-            <span className="text-xl shrink-0">📋</span>
+          <div className="flex items-center gap-2 md:gap-3">
+            {/* Icon hidden on mobile to save space */}
+            <span className="text-xl shrink-0 hidden md:block">📋</span>
             <div className="min-w-0">
-              <h2 className="text-base font-bold text-white truncate">{questionTitle}</h2>
-              <p className="text-white/50 text-xs truncate">{questionDescription}</p>
+              <h2 className="text-sm md:text-base font-bold text-white truncate">{questionTitle}</h2>
+              {/* Description hidden on mobile */}
+              <p className="text-white/50 text-xs truncate hidden md:block">{questionDescription}</p>
             </div>
           </div>
         </div>
 
-        {/* Right: Step counter, Score, reset */}
-        <div className="flex items-center gap-3 shrink-0">
-          {/* Step counter */}
-          <div className="wg-score-badge !px-3">
+        {/* Right: Step counter (desktop only), Score, reset (desktop only) */}
+        <div className="flex items-center gap-2 md:gap-3 shrink-0">
+          {/* Step counter - hidden on mobile */}
+          <div className="wg-score-badge hidden md:block">
             {currentStep} / {totalSteps}
           </div>
 
-          {/* Score */}
+          {/* Score - compact on mobile */}
           <div className="wg-score-badge">
             <img src="/coin.png" alt="coin" className="w-6 h-6" />
             {score}
           </div>
 
-          {/* Reset button */}
+          {/* Reset button - hidden on mobile */}
           <button
             onClick={onReset}
-            className="flex items-center justify-center w-10 h-10 rounded-lg bg-gradient-to-br from-white/10 to-white/5 border border-white/20 hover:bg-white/20 transition-all"
+            className="items-center justify-center w-10 h-10 rounded-lg bg-gradient-to-br from-white/10 to-white/5 border border-white/20 hover:bg-white/20 transition-all hidden md:flex"
             title="Reset"
           >
             <svg className="w-5 h-5 text-white/80" fill="none" viewBox="0 0 24 24" stroke="currentColor">
